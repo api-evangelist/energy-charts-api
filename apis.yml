@@ -1,6 +1,7 @@
 aid: energy-charts-api
 name: Energy Charts API
-description: 'When specifying timestamps, you can choose from the following three formats: '
+description: >-
+  When specifying timestamps, you can choose from the following three formats:.
 type: Index
 position: Consumer
 access: 3rd-Party
@@ -16,8 +17,7 @@ apis:
   - aid: energy-charts-api:energy-charts-api
     name: Energy Charts API
     description: >-
-      When specifying timestamps, you can choose from the following three
-      formats: 
+      When specifying timestamps, you can choose from the following three formats:.
     humanURL: ' https://api.energy-charts.info/'
     tags:
       - API
