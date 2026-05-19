@@ -1,0 +1,300 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Energy-Charts API — power
+  description: 'Energy-Charts API — power. 5 operations. Lead operation: Frequency. Self-contained Naftiko capability covering
+    one Energy Charts Api business surface.'
+  tags:
+  - Energy Charts Api
+  - power
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ENERGY_CHARTS_API_API_KEY: ENERGY_CHARTS_API_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: energy-charts-power
+    baseUri: ''
+    description: Energy-Charts API — power business capability. Self-contained, no shared references.
+    resources:
+    - name: frequency
+      path: /frequency
+      operations:
+      - name: frequencyfrequencyget
+        method: GET
+        description: Frequency
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: region
+          in: query
+          type: string
+        - name: start
+          in: query
+          type: string
+        - name: end
+          in: query
+          type: string
+    - name: installed_power
+      path: /installed_power
+      operations:
+      - name: installedpowerinstalledpowerget
+        method: GET
+        description: Installed Power
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: country
+          in: query
+          type: string
+        - name: time_step
+          in: query
+          type: string
+        - name: installation_decommission
+          in: query
+          type: boolean
+    - name: public_power
+      path: /public_power
+      operations:
+      - name: publicpowerpublicpowerget
+        method: GET
+        description: Public Power
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: country
+          in: query
+          type: string
+        - name: start
+          in: query
+          type: string
+        - name: end
+          in: query
+          type: string
+        - name: subtype
+          in: query
+          type: string
+    - name: public_power_forecast
+      path: /public_power_forecast
+      operations:
+      - name: publicpowerforecastpublicpowerforecastget
+        method: GET
+        description: Public Power Forecast
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: country
+          in: query
+          type: string
+        - name: production_type
+          in: query
+          type: string
+        - name: forecast_type
+          in: query
+          type: string
+        - name: start
+          in: query
+          type: string
+        - name: end
+          in: query
+          type: string
+    - name: total_power
+      path: /total_power
+      operations:
+      - name: totalpowertotalpowerget
+        method: GET
+        description: Total Power
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: country
+          in: query
+          type: string
+        - name: start
+          in: query
+          type: string
+        - name: end
+          in: query
+          type: string
+  exposes:
+  - type: rest
+    namespace: energy-charts-power-rest
+    port: 8080
+    description: REST adapter for Energy-Charts API — power. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/frequency
+      name: frequency
+      description: REST surface for frequency.
+      operations:
+      - method: GET
+        name: frequencyfrequencyget
+        description: Frequency
+        call: energy-charts-power.frequencyfrequencyget
+        with:
+          region: rest.region
+          start: rest.start
+          end: rest.end
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/installed-power
+      name: installed-power
+      description: REST surface for installed_power.
+      operations:
+      - method: GET
+        name: installedpowerinstalledpowerget
+        description: Installed Power
+        call: energy-charts-power.installedpowerinstalledpowerget
+        with:
+          country: rest.country
+          time_step: rest.time_step
+          installation_decommission: rest.installation_decommission
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/public-power
+      name: public-power
+      description: REST surface for public_power.
+      operations:
+      - method: GET
+        name: publicpowerpublicpowerget
+        description: Public Power
+        call: energy-charts-power.publicpowerpublicpowerget
+        with:
+          country: rest.country
+          start: rest.start
+          end: rest.end
+          subtype: rest.subtype
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/public-power-forecast
+      name: public-power-forecast
+      description: REST surface for public_power_forecast.
+      operations:
+      - method: GET
+        name: publicpowerforecastpublicpowerforecastget
+        description: Public Power Forecast
+        call: energy-charts-power.publicpowerforecastpublicpowerforecastget
+        with:
+          country: rest.country
+          production_type: rest.production_type
+          forecast_type: rest.forecast_type
+          start: rest.start
+          end: rest.end
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/total-power
+      name: total-power
+      description: REST surface for total_power.
+      operations:
+      - method: GET
+        name: totalpowertotalpowerget
+        description: Total Power
+        call: energy-charts-power.totalpowertotalpowerget
+        with:
+          country: rest.country
+          start: rest.start
+          end: rest.end
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: energy-charts-power-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Energy-Charts API — power. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: frequency
+      description: Frequency
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: energy-charts-power.frequencyfrequencyget
+      with:
+        region: tools.region
+        start: tools.start
+        end: tools.end
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: installed-power
+      description: Installed Power
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: energy-charts-power.installedpowerinstalledpowerget
+      with:
+        country: tools.country
+        time_step: tools.time_step
+        installation_decommission: tools.installation_decommission
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: public-power
+      description: Public Power
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: energy-charts-power.publicpowerpublicpowerget
+      with:
+        country: tools.country
+        start: tools.start
+        end: tools.end
+        subtype: tools.subtype
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: public-power-forecast
+      description: Public Power Forecast
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: energy-charts-power.publicpowerforecastpublicpowerforecastget
+      with:
+        country: tools.country
+        production_type: tools.production_type
+        forecast_type: tools.forecast_type
+        start: tools.start
+        end: tools.end
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: total-power
+      description: Total Power
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: energy-charts-power.totalpowertotalpowerget
+      with:
+        country: tools.country
+        start: tools.start
+        end: tools.end
+      outputParameters:
+      - type: object
+        mapping: $.

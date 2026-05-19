@@ -1,0 +1,135 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Energy-Charts API — import_export
+  description: 'Energy-Charts API — import_export. 2 operations. Lead operation: Cross Border Electricity Trading. Self-contained
+    Naftiko capability covering one Energy Charts Api business surface.'
+  tags:
+  - Energy Charts Api
+  - import_export
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ENERGY_CHARTS_API_API_KEY: ENERGY_CHARTS_API_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: energy-charts-import-export
+    baseUri: ''
+    description: Energy-Charts API — import_export business capability. Self-contained, no shared references.
+    resources:
+    - name: cbet
+      path: /cbet
+      operations:
+      - name: crossborderelectricitytradingcbetget
+        method: GET
+        description: Cross Border Electricity Trading
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: country
+          in: query
+          type: string
+        - name: start
+          in: query
+          type: string
+        - name: end
+          in: query
+          type: string
+    - name: cbpf
+      path: /cbpf
+      operations:
+      - name: crossborderphysicalflowscbpfget
+        method: GET
+        description: Cross Border Physical Flows
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: country
+          in: query
+          type: string
+        - name: start
+          in: query
+          type: string
+        - name: end
+          in: query
+          type: string
+  exposes:
+  - type: rest
+    namespace: energy-charts-import-export-rest
+    port: 8080
+    description: REST adapter for Energy-Charts API — import_export. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/cbet
+      name: cbet
+      description: REST surface for cbet.
+      operations:
+      - method: GET
+        name: crossborderelectricitytradingcbetget
+        description: Cross Border Electricity Trading
+        call: energy-charts-import-export.crossborderelectricitytradingcbetget
+        with:
+          country: rest.country
+          start: rest.start
+          end: rest.end
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/cbpf
+      name: cbpf
+      description: REST surface for cbpf.
+      operations:
+      - method: GET
+        name: crossborderphysicalflowscbpfget
+        description: Cross Border Physical Flows
+        call: energy-charts-import-export.crossborderphysicalflowscbpfget
+        with:
+          country: rest.country
+          start: rest.start
+          end: rest.end
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: energy-charts-import-export-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Energy-Charts API — import_export. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: cross-border-electricity-trading
+      description: Cross Border Electricity Trading
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: energy-charts-import-export.crossborderelectricitytradingcbetget
+      with:
+        country: tools.country
+        start: tools.start
+        end: tools.end
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: cross-border-physical-flows
+      description: Cross Border Physical Flows
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: energy-charts-import-export.crossborderphysicalflowscbpfget
+      with:
+        country: tools.country
+        start: tools.start
+        end: tools.end
+      outputParameters:
+      - type: object
+        mapping: $.

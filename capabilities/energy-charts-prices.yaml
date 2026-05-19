@@ -1,0 +1,85 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Energy-Charts API — prices
+  description: 'Energy-Charts API — prices. 1 operations. Lead operation: Day Ahead Price. Self-contained Naftiko capability
+    covering one Energy Charts Api business surface.'
+  tags:
+  - Energy Charts Api
+  - prices
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ENERGY_CHARTS_API_API_KEY: ENERGY_CHARTS_API_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: energy-charts-prices
+    baseUri: ''
+    description: Energy-Charts API — prices business capability. Self-contained, no shared references.
+    resources:
+    - name: price
+      path: /price
+      operations:
+      - name: dayaheadpricepriceget
+        method: GET
+        description: Day Ahead Price
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: bzn
+          in: query
+          type: string
+        - name: start
+          in: query
+          type: string
+        - name: end
+          in: query
+          type: string
+  exposes:
+  - type: rest
+    namespace: energy-charts-prices-rest
+    port: 8080
+    description: REST adapter for Energy-Charts API — prices. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/price
+      name: price
+      description: REST surface for price.
+      operations:
+      - method: GET
+        name: dayaheadpricepriceget
+        description: Day Ahead Price
+        call: energy-charts-prices.dayaheadpricepriceget
+        with:
+          bzn: rest.bzn
+          start: rest.start
+          end: rest.end
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: energy-charts-prices-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Energy-Charts API — prices. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: day-ahead-price
+      description: Day Ahead Price
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: energy-charts-prices.dayaheadpricepriceget
+      with:
+        bzn: tools.bzn
+        start: tools.start
+        end: tools.end
+      outputParameters:
+      - type: object
+        mapping: $.
