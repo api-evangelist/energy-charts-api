@@ -2,7 +2,7 @@
 
 The Energy-Charts API, provided by Fraunhofer ISE, delivers European energy data including electricity production by source, day-ahead spot market prices, cross-border electricity trading and physical flows, grid frequency, installed capacity, and renewable energy share forecasts. It covers more than 40 European countries and bidding zones, supports ISO 8601, daily, and UNIX timestamp formats, and is largely licensed under CC BY 4.0.
 
-**URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/energy-charts-api/refs/heads/main/apis.yml)
+**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/energy-charts-api/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/energy-charts-api/refs/heads/main/apis.yml)
 
 ## Scope
 
@@ -12,12 +12,19 @@ The Energy-Charts API, provided by Fraunhofer ISE, delivers European energy data
 
 ## Tags
 
-- Energy, Electricity, Renewables, Grid, Europe, Power, Pricing, Forecasts
+- Energy
+- Electricity
+- Renewables
+- Grid
+- Europe
+- Power
+- Pricing
+- Forecasts
 
 ## Timestamps
 
 - **Created:** 2025-05-02
-- **Modified:** 2026-04-28
+- **Modified:** 2026-05-19
 
 ## APIs
 
@@ -25,18 +32,24 @@ The Energy-Charts API, provided by Fraunhofer ISE, delivers European energy data
 
 Public REST API from Fraunhofer ISE delivering European electricity production, prices, cross-border flows, grid frequency, installed capacity, and renewable share data across 40+ countries and bidding zones with multiple timestamp formats.
 
-**Human URL:** [https://api.energy-charts.info/](https://api.energy-charts.info/)
-
-**Base URL:** https://api.energy-charts.info
+- **Human URL:** [https://api.energy-charts.info/](https://api.energy-charts.info/)
+- **Base URL:** `https://api.energy-charts.info`
 
 #### Tags
 
-- Energy, Electricity, Renewables, Grid, Power, Pricing
+- Energy
+- Electricity
+- Renewables
+- Grid
+- Power
+- Pricing
 
 #### Properties
 
 - [Documentation](https://api.energy-charts.info/)
-- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/energy-charts-api/refs/heads/main/openapi/energy-charts-api-openapi.yml)
+- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/energy-charts-api/refs/heads/main/openapi/energy-charts-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/energy-charts-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/energy-charts-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
 
 ## Common Properties
 
@@ -46,5 +59,4 @@ Public REST API from Fraunhofer ISE delivering European electricity production, 
 ## Maintainers
 
 **FN:** Kin Lane
-
 **Email:** kin@apievangelist.com
