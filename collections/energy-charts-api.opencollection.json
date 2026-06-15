@@ -1,0 +1,468 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Energy-Charts API",
+    "version": "1.5"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "power",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Public Power",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/public_power",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "subtype",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the public net electricity production for a given country for each production type. Subtype can be \"solarlog\" for Switzerland (ch).\n    \n\n\n    \n\nResponse schema:\n    \n\n ```json\n{\n  \"unix_seconds\": list[int],\n  \"production_types\": [\n    {\n        \"name\": str,\n        \"data\": list[float]\n    }\n  ],\n  \"deprecated\": bool\n}\n```"
+        },
+        {
+          "info": {
+            "name": "Public Power Forecast",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/public_power_forecast",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "production_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "forecast_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the forecast of the public net electricity production for a given country for each production type.\n    \n\n\n    \n\n<b>production_type:</b> Can be solar, wind_onshore, wind_offshore or load\n    <br><b>forecast_type:</b> Can be current, intraday or day-ahead\n    \n\n\n    \n\nIf no dates are provided, values for today until forecast is available are returned. For load only the forecast type \"day-ahead\" is available.\n    \n\n\n    \n\nResponse schema:\n    \n\n ```json\n{\n  \"unix_seconds\": list[int],\n  \"fo"
+        },
+        {
+          "info": {
+            "name": "Total Power",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/total_power",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the total net electricity production (including industrial self supply) for a given country for each production type.\n    \n\n\n    \n\nCurrently only available for Germany.\n    \n\n\n    \n\nResponse schema:\n    \n\n ```json\n{\n  \"unix_seconds\": list[int],\n  \"production_types\": [\n    {\n        \"name\": str,\n        \"data\": list[float]\n    }\n  ],\n  \"deprecated\": bool\n}\n```"
+        },
+        {
+          "info": {
+            "name": "Installed Power",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/installed_power",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "time_step",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "installation_decommission",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the installed power for a specified country in GW except for battery storage capacity, which is given in GWh. Monthly installation / decommission numbers are returned in MW instead of GW. \"last_update\" is the time of the last data update, expressed as seconds since the Unix epoch (UTC).\n    \n\n\n    \n\n<b>time_step:</b> Time step can be either \"yearly\" or \"monthly\" (only for Germany)\n    <br><b>installation_decommission:</b> If true, the net installation / decommission numbers are returned "
+        },
+        {
+          "info": {
+            "name": "Frequency",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/frequency",
+            "params": [
+              {
+                "name": "region",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the frequency measured at Fraunhofer ISE in Freiburg, Germany. Currently only the frequency in RG Continental Europe (formerly UCTE) is available. The data is available in 1 second timesteps from 1st of May 2022 onwards.\n    \n\n\n    \n\nResponse schema:\n    \n\n ```json\n{\n  \"unix_seconds\": list[int],\n  \"data\": list[float],\n  \"deprecated\": bool\n}\n```"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "prices",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Day Ahead Price",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/price",
+            "params": [
+              {
+                "name": "bzn",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the day-ahead spot market price for a specified bidding zone in EUR/MWh.\n    \n\n\n    \n\nAvailable bidding zones (bzn) are shown above.\n    \n\n\n    \n\n<b>The data for the following bidding zones is licensed as <a href=\"https://creativecommons.org/licenses/by/4.0/\" target=\"_blank\">CC BY 4.0</a> from Bundesnetzagentur | SMARD.de and is published without changes:\n    <ul>\n        <li>AT (Austria)</li>\n        <li>BE (Belgium)</li>\n        <li>CH (Switzerland)</li>\n        <li>CZ (Czech Republic)"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "import_export",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Cross Border Electricity Trading",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/cbet",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the cross-border electricity trading (cbet) in GW between a specified country and its neighbors.\n        \n\nPositive values indicate an import of electricity, whereas negative values show electricity exports.\n        \n\n\n        \n\nResponse schema:\n        \n\n```json\n{\n    \"unix_seconds\": [int],\n    \"countries\": [\n        {\n        \"name\": str,\n        \"data\": [float]\n        }\n    ],\n    \"deprecated\": bool\n}\n```"
+        },
+        {
+          "info": {
+            "name": "Cross Border Physical Flows",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/cbpf",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the cross-border physical flows (cbpfs) of electricity in GW between a specified country and its neighbors.\n        \n\nPositive values indicate an import of electricity, whereas negative values show electricity exports.\n        \n\n\n        \n\nResponse schema:\n        \n\n```json\n{\n    \"unix_seconds\": [int],\n    \"countries\": [\n        {\n        \"name\": str,\n        \"data\": [float]\n        }\n    ],\n    \"deprecated\": bool\n}\n```"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "ren_share",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Traffic Signal",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/signal",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "postal_code",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "<b>Electricity traffic signal</b>\n    \n\n\n    \n\nReturns the renewable share of load in percent from today until prediction is currently available and the corresponding traffic light.\n    \n\n\n    \n\nThe traffic light \"signal\" is indicated by the following numbers:\n    \n\n\n    -1: Red (grid congestion),\n    0: Red (low renewable share),\n    1: Yellow (average renewable share),\n    2: Green (high renewable share)\n    \n\n\n    \n\nIf no data is available from the primary data providers, a best guess is made"
+        },
+        {
+          "info": {
+            "name": "Renewable Share Forecast",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/ren_share_forecast",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "<b>Renewable share forecast</b>\n    \n\n\n    \n\nReturns the renewable share of load forecast in percent from today until prediction is currently available. It also includes the forecast for solar, wind on- and offshore share of load.\n    \n\n\n    \n\nIf no data is available from the primary data providers, a best guess is made from historic data. This is indicated by \"substitute\" set to True.\n    \n\n\n    \n\nResponse schema:\n    \n\n```json\n{\n    \"unix_seconds\": [int],\n    \"ren_share\": [float],\n    \"solar_s"
+        },
+        {
+          "info": {
+            "name": "Ren Share Daily Avg",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/ren_share_daily_avg",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "year",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "<b>Average daily renewable share of load</b>\n    \n\n\n    \n\nReturns the average daily renewable share of load of the last 365 days (year = -1) or for a given year if provided.\n    \n\n\n    \n\nResponse schema:\n    \n\n```json\n\n    {\n        \"days\": [\"dd.mm.yyyy\"],\n        \"data\": [float],\n        \"deprecated\": bool\n    }\n\n    ```"
+        },
+        {
+          "info": {
+            "name": "Solar Share",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/solar_share",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "<b>Solar Share of Load</b>\n    \n\n\n    \n\nReturns the solar share of load from today until prediction is currently available\n    \n\n\n    \n\nResponse schema:\n    \n\n```json\n{\n    \"unix_seconds\": list[int],\n    \"data\": list[float],\n    \"forecast\": list[float],\n    \"deprecated\": bool\n}\n```"
+        },
+        {
+          "info": {
+            "name": "Solar Share Daily Avg",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/solar_share_daily_avg",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "year",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "<b>Average daily solar share of load</b>\n    \n\n\n    \n\nReturns the average daily solar share of load of the last 365 days (year = -1) or for a given year if provided.\n    \n\n\n    \n\nResponse schema:\n    \n\n```json\n{\n    \"days\": [\"dd.mm.yyyy\"],\n    \"data\": [float],\n    \"deprecated\": bool\n}\n```"
+        },
+        {
+          "info": {
+            "name": "Wind Onshore Share",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/wind_onshore_share",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "<b>Wind Onshore Share of Load</b>\n    \n\n\n    \n\nReturns the wind onshore share of load from today until prediction is currently available\n    \n\n\n    \n\nResponse schema:\n    \n\n```json\n{\n    \"unix_seconds\": list[int],\n    \"data\": list[float],\n    \"forecast\": list[float],\n    \"deprecated\": bool\n}\n```"
+        },
+        {
+          "info": {
+            "name": "Wind Onshore Share Daily Avg",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/wind_onshore_share_daily_avg",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "year",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "<b>Average daily wind onshore share of load</b>\n    \n\n\n    \n\nReturns the average daily wind onshore share of load of the last 365 days\n    \n\n\n    \n\nResponse schema:\n    \n\n```json\n{\n    \"days\": [\"dd.mm.yyyy\"],\n    \"data\": [float],\n    \"deprecated\": bool\n}\n```"
+        },
+        {
+          "info": {
+            "name": "Wind Offshore Share",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/wind_offshore_share",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "<b>Wind Offshore Share of Load</b>\n    \n\n\n    \n\nReturns the wind offshore share of load from today until prediction is currently available\n    \n\n\n    \n\nResponse schema:\n    \n\n```json\n{\n    \"unix_seconds\": list[int],\n    \"data\": list[float],\n    \"forecast\": list[float],\n    \"deprecated\": bool\n}\n```"
+        },
+        {
+          "info": {
+            "name": "Wind Offshore Share Daily Avg",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/wind_offshore_share_daily_avg",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "year",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "<b>Average daily wind offshore share of load</b>\n    \n\n\n    \n\nReturns the average daily wind offshore share of load of the last 365 days\n    \n\n\n    \n\nResponse schema:\n    \n\n```json\n\n{\n    \"days\": [\"dd.mm.yyyy\"],\n    \"data\": [float],\n    \"deprecated\": bool\n}\n\n```"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

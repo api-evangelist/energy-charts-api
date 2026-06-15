@@ -1,0 +1,2476 @@
+{
+  "item": [
+    {
+      "id": "87be0eea-330c-4d39-a6c7-2f71986aecd0",
+      "name": "power",
+      "description": {
+        "content": "Query power values",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0bb1e699-6f54-4c15-866d-b0c4c3dbf06d",
+          "name": "Public Power",
+          "request": {
+            "name": "Public Power",
+            "description": {
+              "content": "Returns the public net electricity production for a given country for each production type. Subtype can be \"solarlog\" for Switzerland (ch).\n    \n\n\n    \n\nResponse schema:\n    \n\n ```json\n{\n  \"unix_seconds\": list[int],\n  \"production_types\": [\n    {\n        \"name\": str,\n        \"data\": list[float]\n    }\n  ],\n  \"deprecated\": bool\n}\n```",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "public_power"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "de"
+                },
+                {
+                  "disabled": false,
+                  "key": "start",
+                  "value": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "end",
+                  "value": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "subtype",
+                  "value": ""
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "40fa24aa-54d6-4990-8496-8ebea9e69b7a",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public_power"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    },
+                    {
+                      "key": "start",
+                      "value": ""
+                    },
+                    {
+                      "key": "end",
+                      "value": ""
+                    },
+                    {
+                      "key": "subtype",
+                      "value": ""
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"deprecated\": false,\n  \"unix_seconds\": [\n    9820,\n    1731\n  ],\n  \"production_types\": [\n    {\n      \"name\": \"string\",\n      \"data\": [\n        7724.490284301074,\n        536.1502979592215\n      ]\n    },\n    {\n      \"name\": \"string\",\n      \"data\": [\n        3509.6300346381613,\n        6259.504018127765\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8583ffc4-6cd9-46f9-bed2-ac24969341b6",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public_power"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    },
+                    {
+                      "key": "start",
+                      "value": ""
+                    },
+                    {
+                      "key": "end",
+                      "value": ""
+                    },
+                    {
+                      "key": "subtype",
+                      "value": ""
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5446aa2f-139e-4a8c-8c2b-e9453b5ebf77",
+          "name": "Public Power Forecast",
+          "request": {
+            "name": "Public Power Forecast",
+            "description": {
+              "content": "Returns the forecast of the public net electricity production for a given country for each production type.\n    \n\n\n    \n\n<b>production_type:</b> Can be solar, wind_onshore, wind_offshore or load\n    <br><b>forecast_type:</b> Can be current, intraday or day-ahead\n    \n\n\n    \n\nIf no dates are provided, values for today until forecast is available are returned. For load only the forecast type \"day-ahead\" is available.\n    \n\n\n    \n\nResponse schema:\n    \n\n ```json\n{\n  \"unix_seconds\": list[int],\n  \"forecast_values\": list[float],\n  \"production_type\": str,\n  \"forecast_type\": str,\n  \"deprecated\": bool\n}\n```",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "public_power_forecast"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "de"
+                },
+                {
+                  "disabled": false,
+                  "key": "production_type",
+                  "value": "solar"
+                },
+                {
+                  "disabled": false,
+                  "key": "forecast_type",
+                  "value": "current"
+                },
+                {
+                  "disabled": false,
+                  "key": "start",
+                  "value": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "end",
+                  "value": ""
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a52559a6-b8c0-461d-bfab-11f6a76a5468",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public_power_forecast"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    },
+                    {
+                      "key": "production_type",
+                      "value": "solar"
+                    },
+                    {
+                      "key": "forecast_type",
+                      "value": "current"
+                    },
+                    {
+                      "key": "start",
+                      "value": ""
+                    },
+                    {
+                      "key": "end",
+                      "value": ""
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"unix_seconds\": [\n    126,\n    9213\n  ],\n  \"forecast_values\": [\n    7593.433431100523,\n    1434.6024774636667\n  ],\n  \"production_type\": \"string\",\n  \"forecast_type\": \"string\",\n  \"deprecated\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2c0b665e-8ca5-4f41-9c82-54a3b2d91b5f",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public_power_forecast"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    },
+                    {
+                      "key": "production_type",
+                      "value": "solar"
+                    },
+                    {
+                      "key": "forecast_type",
+                      "value": "current"
+                    },
+                    {
+                      "key": "start",
+                      "value": ""
+                    },
+                    {
+                      "key": "end",
+                      "value": ""
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "66acfb5e-a701-44ea-b50b-573411df09e1",
+          "name": "Total Power",
+          "request": {
+            "name": "Total Power",
+            "description": {
+              "content": "Returns the total net electricity production (including industrial self supply) for a given country for each production type.\n    \n\n\n    \n\nCurrently only available for Germany.\n    \n\n\n    \n\nResponse schema:\n    \n\n ```json\n{\n  \"unix_seconds\": list[int],\n  \"production_types\": [\n    {\n        \"name\": str,\n        \"data\": list[float]\n    }\n  ],\n  \"deprecated\": bool\n}\n```",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "total_power"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "de"
+                },
+                {
+                  "disabled": false,
+                  "key": "start",
+                  "value": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "end",
+                  "value": ""
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2cbdcb91-54fa-40a1-9379-7adfbda0d4a4",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "total_power"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    },
+                    {
+                      "key": "start",
+                      "value": ""
+                    },
+                    {
+                      "key": "end",
+                      "value": ""
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"deprecated\": false,\n  \"unix_seconds\": [\n    9820,\n    1731\n  ],\n  \"production_types\": [\n    {\n      \"name\": \"string\",\n      \"data\": [\n        7724.490284301074,\n        536.1502979592215\n      ]\n    },\n    {\n      \"name\": \"string\",\n      \"data\": [\n        3509.6300346381613,\n        6259.504018127765\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ca976548-39c2-45eb-91c7-7540b4df835a",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "total_power"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    },
+                    {
+                      "key": "start",
+                      "value": ""
+                    },
+                    {
+                      "key": "end",
+                      "value": ""
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8d6974b1-0eef-4d1c-bf53-519cdd26808b",
+          "name": "Installed Power",
+          "request": {
+            "name": "Installed Power",
+            "description": {
+              "content": "Returns the installed power for a specified country in GW except for battery storage capacity, which is given in GWh. Monthly installation / decommission numbers are returned in MW instead of GW. \"last_update\" is the time of the last data update, expressed as seconds since the Unix epoch (UTC).\n    \n\n\n    \n\n<b>time_step:</b> Time step can be either \"yearly\" or \"monthly\" (only for Germany)\n    <br><b>installation_decommission:</b> If true, the net installation / decommission numbers are returned instead of total installed power\n    \n\n\n    \n\nResponse schema:\n    \n\n ```json\n{ \n  \"time\": list[str],\n  \"production_types\": [\n    {\n        \"name\": str, \n        \"data\": list[float]\n    }\n  ],\n  \"last_update\": int,\n  \"deprecated\": bool\n}\n```",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "installed_power"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "de"
+                },
+                {
+                  "disabled": false,
+                  "key": "time_step",
+                  "value": "yearly"
+                },
+                {
+                  "disabled": false,
+                  "key": "installation_decommission",
+                  "value": "false"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "68dc9d0e-64a7-4434-a366-4182910158d6",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "installed_power"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    },
+                    {
+                      "key": "time_step",
+                      "value": "yearly"
+                    },
+                    {
+                      "key": "installation_decommission",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"time\": [\n    \"string\",\n    \"string\"\n  ],\n  \"last_update\": 627,\n  \"deprecated\": false,\n  \"production_types\": [\n    {\n      \"name\": \"string\",\n      \"data\": [\n        3546.4907047931392,\n        5363.309551859482\n      ]\n    },\n    {\n      \"name\": \"string\",\n      \"data\": [\n        1026.0433877783582,\n        7322.996056647128\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e7c7fbaa-a1f5-4410-af07-a86b4e2e4d6e",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "installed_power"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    },
+                    {
+                      "key": "time_step",
+                      "value": "yearly"
+                    },
+                    {
+                      "key": "installation_decommission",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ba297fd9-e103-4e47-80cc-343aa2c716cd",
+          "name": "Frequency",
+          "request": {
+            "name": "Frequency",
+            "description": {
+              "content": "Returns the frequency measured at Fraunhofer ISE in Freiburg, Germany. Currently only the frequency in RG Continental Europe (formerly UCTE) is available. The data is available in 1 second timesteps from 1st of May 2022 onwards.\n    \n\n\n    \n\nResponse schema:\n    \n\n ```json\n{\n  \"unix_seconds\": list[int],\n  \"data\": list[float],\n  \"deprecated\": bool\n}\n```",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "frequency"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "region",
+                  "value": "DE-Freiburg"
+                },
+                {
+                  "disabled": false,
+                  "key": "start",
+                  "value": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "end",
+                  "value": ""
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c3611339-7ae9-47d8-adb4-c15fdf64c0d0",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "frequency"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "region",
+                      "value": "DE-Freiburg"
+                    },
+                    {
+                      "key": "start",
+                      "value": ""
+                    },
+                    {
+                      "key": "end",
+                      "value": ""
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    6973.052878625251,\n    6233.572700320899\n  ],\n  \"deprecated\": false,\n  \"unix_seconds\": [\n    1873,\n    8144\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cf86e7e5-4bd4-449a-8b57-d466832ea43c",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "frequency"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "region",
+                      "value": "DE-Freiburg"
+                    },
+                    {
+                      "key": "start",
+                      "value": ""
+                    },
+                    {
+                      "key": "end",
+                      "value": ""
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "d2932c91-48d8-4029-8038-d1db7c62b7a0",
+      "name": "import_export",
+      "description": {
+        "content": "Import/export values",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2ee8d838-686a-4c4b-815d-5644b2ab54f7",
+          "name": "Cross Border Electricity Trading",
+          "request": {
+            "name": "Cross Border Electricity Trading",
+            "description": {
+              "content": "Returns the cross-border electricity trading (cbet) in GW between a specified country and its neighbors.\n        \n\nPositive values indicate an import of electricity, whereas negative values show electricity exports.\n        \n\n\n        \n\nResponse schema:\n        \n\n```json\n{\n    \"unix_seconds\": [int],\n    \"countries\": [\n        {\n        \"name\": str,\n        \"data\": [float]\n        }\n    ],\n    \"deprecated\": bool\n}\n```",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "cbet"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "de"
+                },
+                {
+                  "disabled": false,
+                  "key": "start",
+                  "value": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "end",
+                  "value": ""
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ad729be7-eba3-4bfb-b805-37d146c32e04",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cbet"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    },
+                    {
+                      "key": "start",
+                      "value": ""
+                    },
+                    {
+                      "key": "end",
+                      "value": ""
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"deprecated\": false,\n  \"unix_seconds\": [\n    8944,\n    5321\n  ],\n  \"countries\": [\n    {\n      \"name\": \"string\",\n      \"data\": [\n        5691.616023316918,\n        941.7280187508482\n      ]\n    },\n    {\n      \"name\": \"string\",\n      \"data\": [\n        6998.360048742174,\n        309.68580753441665\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "afe52695-950a-49d9-9393-472dce428104",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cbet"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    },
+                    {
+                      "key": "start",
+                      "value": ""
+                    },
+                    {
+                      "key": "end",
+                      "value": ""
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b49ad2f0-fd82-46e3-9cea-0a6596a94cb3",
+          "name": "Cross Border Physical Flows",
+          "request": {
+            "name": "Cross Border Physical Flows",
+            "description": {
+              "content": "Returns the cross-border physical flows (cbpfs) of electricity in GW between a specified country and its neighbors.\n        \n\nPositive values indicate an import of electricity, whereas negative values show electricity exports.\n        \n\n\n        \n\nResponse schema:\n        \n\n```json\n{\n    \"unix_seconds\": [int],\n    \"countries\": [\n        {\n        \"name\": str,\n        \"data\": [float]\n        }\n    ],\n    \"deprecated\": bool\n}\n```",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "cbpf"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "de"
+                },
+                {
+                  "disabled": false,
+                  "key": "start",
+                  "value": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "end",
+                  "value": ""
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "fb1d8ca7-e90a-4511-9335-cc861cb1e161",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cbpf"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    },
+                    {
+                      "key": "start",
+                      "value": ""
+                    },
+                    {
+                      "key": "end",
+                      "value": ""
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"deprecated\": false,\n  \"unix_seconds\": [\n    8944,\n    5321\n  ],\n  \"countries\": [\n    {\n      \"name\": \"string\",\n      \"data\": [\n        5691.616023316918,\n        941.7280187508482\n      ]\n    },\n    {\n      \"name\": \"string\",\n      \"data\": [\n        6998.360048742174,\n        309.68580753441665\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cef48d59-f808-4709-8b23-1a2000209897",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "cbpf"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    },
+                    {
+                      "key": "start",
+                      "value": ""
+                    },
+                    {
+                      "key": "end",
+                      "value": ""
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "31306caf-9124-45b2-b923-84f3d271c064",
+      "name": "prices",
+      "description": {
+        "content": "Query price values",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "37c5b3c2-ca6a-4a83-98f7-67a8a3f8dd40",
+          "name": "Day Ahead Price",
+          "request": {
+            "name": "Day Ahead Price",
+            "description": {
+              "content": "Returns the day-ahead spot market price for a specified bidding zone in EUR/MWh.\n    \n\n\n    \n\nAvailable bidding zones (bzn) are shown above.\n    \n\n\n    \n\n<b>The data for the following bidding zones is licensed as <a href=\"https://creativecommons.org/licenses/by/4.0/\" target=\"_blank\">CC BY 4.0</a> from Bundesnetzagentur | SMARD.de and is published without changes:\n    <ul>\n        <li>AT (Austria)</li>\n        <li>BE (Belgium)</li>\n        <li>CH (Switzerland)</li>\n        <li>CZ (Czech Republic)</li>\n        <li>DE-LU (Germany, Luxembourg)</li>\n        <li>DE-AT-LU (Germany, Austria, Luxembourg)</li>\n        <li>DK1 (Denmark 1)</li>\n        <li>DK2 (Denmark 2)</li>\n        <li>FR (France)</li>\n        <li>HU (Hungary)</li>\n        <li>IT-North (Italy North)</li>\n        <li>NL (Netherlands)</li>\n        <li>NO2 (Norway 2)</li>\n        <li>PL (Poland)</li>\n        <li>SE4 (Sweden 4)</li>\n        <li>SI (Slovenia)\n    </ul></b>\n    \n\n\n    \n\n<b>The data for the other bidding zones is for private and internal use only. The utilization of any data</li>\nwhether in its raw or derived form, for external or commercial purposes is expressly prohibited. Should you require licensing for market-related data, please direct your inquiries to the original data providers, including but not limited to EPEX SPOT SE.</b>\n    \n\nResponse schema:\n    \n\n```json\n{\n    \"license_info\": str,\n    \"unix_seconds\": [int],\n    \"price\": [float],\n    \"unit\": str,\n    \"deprecated\": bool\n}\n```",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "price"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "bzn",
+                  "value": "DE-LU"
+                },
+                {
+                  "disabled": false,
+                  "key": "start",
+                  "value": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "end",
+                  "value": ""
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "75a06ec4-b226-44ed-8707-35eb30bb8718",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "price"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "bzn",
+                      "value": "DE-LU"
+                    },
+                    {
+                      "key": "start",
+                      "value": ""
+                    },
+                    {
+                      "key": "end",
+                      "value": ""
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"license_info\": \"string\",\n  \"unit\": \"string\",\n  \"deprecated\": false,\n  \"unix_seconds\": [\n    7765,\n    3503\n  ],\n  \"price\": [\n    5577.940103967028,\n    3051.984072919123\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c6bbd7a8-ef96-4349-af2e-ca9d7a282973",
+              "name": "No price data available for that bidding zone/time range",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "price"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "bzn",
+                      "value": "DE-LU"
+                    },
+                    {
+                      "key": "start",
+                      "value": ""
+                    },
+                    {
+                      "key": "end",
+                      "value": ""
+                    }
+                  ],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "370f36f8-151f-4a08-8756-ce3faa1efb3b",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "price"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "bzn",
+                      "value": "DE-LU"
+                    },
+                    {
+                      "key": "start",
+                      "value": ""
+                    },
+                    {
+                      "key": "end",
+                      "value": ""
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "693f0eb8-64d8-42f8-9c57-7b8dbc2c79d5",
+      "name": "ren_share",
+      "description": {
+        "content": "Renewable shares",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d8d24f23-6314-454a-8352-a23007a3756b",
+          "name": "Traffic Signal",
+          "request": {
+            "name": "Traffic Signal",
+            "description": {
+              "content": "<b>Electricity traffic signal</b>\n    \n\n\n    \n\nReturns the renewable share of load in percent from today until prediction is currently available and the corresponding traffic light.\n    \n\n\n    \n\nThe traffic light \"signal\" is indicated by the following numbers:\n    \n\n\n    -1: Red (grid congestion),\n    0: Red (low renewable share),\n    1: Yellow (average renewable share),\n    2: Green (high renewable share)\n    \n\n\n    \n\nIf no data is available from the primary data providers, a best guess is made from historic data. This is indicated by \"substitute\" set to True.\n    \n\n\n    \n\n\"postal_code\" is an optional input parameter, which will consider the local grid state (e.g. transmission line overload) in future implementations.\n    \n\n\n    \n\nResponse schema:\n    \n\n```json\n{\n    \"unix_seconds\": [int],\n    \"share\": [float],\n    \"signal\": [int],\n    \"substitute\": bool,\n    \"deprecated\": bool\n}\n```",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "signal"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "de"
+                },
+                {
+                  "disabled": false,
+                  "key": "postal_code",
+                  "value": ""
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f46675d7-dbf3-4f96-b7b8-3fa7ea31bfb9",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    },
+                    {
+                      "key": "postal_code",
+                      "value": ""
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"unix_seconds\": [\n    532,\n    6975\n  ],\n  \"share\": [\n    3513.546614266112,\n    7067.99853096864\n  ],\n  \"substitute\": false,\n  \"deprecated\": false,\n  \"signal\": [\n    1351,\n    7388\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2044351c-6d02-4256-9b1c-df2f2e742de1",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "signal"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    },
+                    {
+                      "key": "postal_code",
+                      "value": ""
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "595b684c-3bfa-41f1-ba39-76a83d018dd0",
+          "name": "Renewable Share Forecast",
+          "request": {
+            "name": "Renewable Share Forecast",
+            "description": {
+              "content": "<b>Renewable share forecast</b>\n    \n\n\n    \n\nReturns the renewable share of load forecast in percent from today until prediction is currently available. It also includes the forecast for solar, wind on- and offshore share of load.\n    \n\n\n    \n\nIf no data is available from the primary data providers, a best guess is made from historic data. This is indicated by \"substitute\" set to True.\n    \n\n\n    \n\nResponse schema:\n    \n\n```json\n{\n    \"unix_seconds\": [int],\n    \"ren_share\": [float],\n    \"solar_share\": [float],\n    \"wind_onshore_share\": [float],\n    \"wind_offshore_share\": [float],\n    \"substitute\": bool,\n    \"deprecated\": bool\n}\n```",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ren_share_forecast"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "de"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ce5e184d-aceb-4d8e-bfed-777b6664f0a9",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ren_share_forecast"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"unix_seconds\": [\n    403,\n    6828\n  ],\n  \"ren_share\": [\n    8817.97001902573,\n    7781.725404761674\n  ],\n  \"substitute\": false,\n  \"deprecated\": false,\n  \"solar_share\": [\n    6871.067580574686,\n    9098.439106878497\n  ],\n  \"wind_onshore_share\": [\n    5040.042071859777,\n    8745.60442453937\n  ],\n  \"wind_offshore_share\": [\n    3003.13002769251,\n    6481.630255696593\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e9467bbc-7208-4ffb-a425-7ab74be0b90b",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ren_share_forecast"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2b0849b4-92a6-48b6-a203-1ed9ddb80add",
+          "name": "Ren Share Daily Avg",
+          "request": {
+            "name": "Ren Share Daily Avg",
+            "description": {
+              "content": "<b>Average daily renewable share of load</b>\n    \n\n\n    \n\nReturns the average daily renewable share of load of the last 365 days (year = -1) or for a given year if provided.\n    \n\n\n    \n\nResponse schema:\n    \n\n```json\n\n    {\n        \"days\": [\"dd.mm.yyyy\"],\n        \"data\": [float],\n        \"deprecated\": bool\n    }\n\n    ```",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ren_share_daily_avg"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "de"
+                },
+                {
+                  "disabled": false,
+                  "key": "year",
+                  "value": "-1"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "fce9d58b-4baa-48ef-be59-2e182ffd614b",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ren_share_daily_avg"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    },
+                    {
+                      "key": "year",
+                      "value": "-1"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"days\": [\n    \"string\",\n    \"string\"\n  ],\n  \"data\": [\n    5373.704641725968,\n    680.888033793049\n  ],\n  \"deprecated\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "38f18f12-0925-42b9-99c5-df92caa49ed4",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ren_share_daily_avg"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    },
+                    {
+                      "key": "year",
+                      "value": "-1"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6c0459c2-259c-4d19-bfc3-0c68e311edf7",
+          "name": "Solar Share",
+          "request": {
+            "name": "Solar Share",
+            "description": {
+              "content": "<b>Solar Share of Load</b>\n    \n\n\n    \n\nReturns the solar share of load from today until prediction is currently available\n    \n\n\n    \n\nResponse schema:\n    \n\n```json\n{\n    \"unix_seconds\": list[int],\n    \"data\": list[float],\n    \"forecast\": list[float],\n    \"deprecated\": bool\n}\n```",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "solar_share"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "de"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0b2f98af-fcb6-44e1-b2fa-678c0619ef6c",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "solar_share"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"deprecated\": false,\n  \"unix_seconds\": [\n    6457,\n    4388\n  ],\n  \"data\": [\n    3838.806991386462,\n    976.9533977905043\n  ],\n  \"forecast\": [\n    3830.5296982201908,\n    1312.1437354974507\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "894554f5-0eeb-4570-8f25-04dee370d444",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "solar_share"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "00d51606-0987-4b59-b013-38c34769b198",
+          "name": "Solar Share Daily Avg",
+          "request": {
+            "name": "Solar Share Daily Avg",
+            "description": {
+              "content": "<b>Average daily solar share of load</b>\n    \n\n\n    \n\nReturns the average daily solar share of load of the last 365 days (year = -1) or for a given year if provided.\n    \n\n\n    \n\nResponse schema:\n    \n\n```json\n{\n    \"days\": [\"dd.mm.yyyy\"],\n    \"data\": [float],\n    \"deprecated\": bool\n}\n```",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "solar_share_daily_avg"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "de"
+                },
+                {
+                  "disabled": false,
+                  "key": "year",
+                  "value": "-1"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ee8546d7-bfb6-4817-8140-30716f5b0b31",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "solar_share_daily_avg"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    },
+                    {
+                      "key": "year",
+                      "value": "-1"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"days\": [\n    \"string\",\n    \"string\"\n  ],\n  \"data\": [\n    5373.704641725968,\n    680.888033793049\n  ],\n  \"deprecated\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3addf310-7470-4e5a-a9e2-60acfd3107ef",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "solar_share_daily_avg"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    },
+                    {
+                      "key": "year",
+                      "value": "-1"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "081d5038-ebcc-4742-881b-2b31cd1e072c",
+          "name": "Wind Onshore Share",
+          "request": {
+            "name": "Wind Onshore Share",
+            "description": {
+              "content": "<b>Wind Onshore Share of Load</b>\n    \n\n\n    \n\nReturns the wind onshore share of load from today until prediction is currently available\n    \n\n\n    \n\nResponse schema:\n    \n\n```json\n{\n    \"unix_seconds\": list[int],\n    \"data\": list[float],\n    \"forecast\": list[float],\n    \"deprecated\": bool\n}\n```",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wind_onshore_share"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "de"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6c36a798-4e06-4f0d-b1d6-2cf6ad8bc7e0",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wind_onshore_share"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"deprecated\": false,\n  \"unix_seconds\": [\n    6457,\n    4388\n  ],\n  \"data\": [\n    3838.806991386462,\n    976.9533977905043\n  ],\n  \"forecast\": [\n    3830.5296982201908,\n    1312.1437354974507\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "db24a129-ee44-4bb8-b14a-97fb0ff67b6f",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wind_onshore_share"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e3efca84-6a18-4566-99dc-18f2e4264e50",
+          "name": "Wind Onshore Share Daily Avg",
+          "request": {
+            "name": "Wind Onshore Share Daily Avg",
+            "description": {
+              "content": "<b>Average daily wind onshore share of load</b>\n    \n\n\n    \n\nReturns the average daily wind onshore share of load of the last 365 days\n    \n\n\n    \n\nResponse schema:\n    \n\n```json\n{\n    \"days\": [\"dd.mm.yyyy\"],\n    \"data\": [float],\n    \"deprecated\": bool\n}\n```",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wind_onshore_share_daily_avg"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "de"
+                },
+                {
+                  "disabled": false,
+                  "key": "year",
+                  "value": "-1"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "31f1b525-cfbc-4d6b-a052-9c3d4df9fc04",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wind_onshore_share_daily_avg"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    },
+                    {
+                      "key": "year",
+                      "value": "-1"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"days\": [\n    \"string\",\n    \"string\"\n  ],\n  \"data\": [\n    5373.704641725968,\n    680.888033793049\n  ],\n  \"deprecated\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a099b1ee-1c78-409e-85ed-7005af33e99f",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wind_onshore_share_daily_avg"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    },
+                    {
+                      "key": "year",
+                      "value": "-1"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ea79de3d-a05e-4ced-91f5-1a1a5dd3b341",
+          "name": "Wind Offshore Share",
+          "request": {
+            "name": "Wind Offshore Share",
+            "description": {
+              "content": "<b>Wind Offshore Share of Load</b>\n    \n\n\n    \n\nReturns the wind offshore share of load from today until prediction is currently available\n    \n\n\n    \n\nResponse schema:\n    \n\n```json\n{\n    \"unix_seconds\": list[int],\n    \"data\": list[float],\n    \"forecast\": list[float],\n    \"deprecated\": bool\n}\n```",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wind_offshore_share"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "de"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2a3d5df6-f35e-4bb7-863f-bc688a52c946",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wind_offshore_share"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"deprecated\": false,\n  \"unix_seconds\": [\n    6457,\n    4388\n  ],\n  \"data\": [\n    3838.806991386462,\n    976.9533977905043\n  ],\n  \"forecast\": [\n    3830.5296982201908,\n    1312.1437354974507\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "671584b6-ff5f-4db4-84d4-a81cb5fe8a64",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wind_offshore_share"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "df157611-3615-4a21-bb15-366be89bf09c",
+          "name": "Wind Offshore Share Daily Avg",
+          "request": {
+            "name": "Wind Offshore Share Daily Avg",
+            "description": {
+              "content": "<b>Average daily wind offshore share of load</b>\n    \n\n\n    \n\nReturns the average daily wind offshore share of load of the last 365 days\n    \n\n\n    \n\nResponse schema:\n    \n\n```json\n\n{\n    \"days\": [\"dd.mm.yyyy\"],\n    \"data\": [float],\n    \"deprecated\": bool\n}\n\n```",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wind_offshore_share_daily_avg"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "de"
+                },
+                {
+                  "disabled": false,
+                  "key": "year",
+                  "value": "-1"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "737fc1a8-60ad-4af6-8be2-70cc040238ad",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wind_offshore_share_daily_avg"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    },
+                    {
+                      "key": "year",
+                      "value": "-1"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"days\": [\n    \"string\",\n    \"string\"\n  ],\n  \"data\": [\n    5373.704641725968,\n    680.888033793049\n  ],\n  \"deprecated\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ac97260b-c1d8-443d-9375-4354e72e35f9",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wind_offshore_share_daily_avg"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    },
+                    {
+                      "key": "year",
+                      "value": "-1"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "566b9a0d-625c-466e-b6a3-9eb2e2ae3d3b",
+    "name": "Energy-Charts API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "\n       \n\n<h4>Timestamp Format Options</h4>\n        <p>When specifying timestamps, you can choose from the following three formats:</p>\n        <ol>\n            <li><strong>ISO 8601 Format</strong>:\n                <ul>\n                    <li>This format includes the full date and time, with an optional timezone indicator.</li>\n                    <li>Examples:\n                        <ul>\n                            <li><code>2025-01-01T17:00Z</code> (UTC time)</li>\n                            <li><code>2025-01-01T18:00+01:00</code> (Local time offset by +01:00)</li>\n                        </ul>\n                    </li>\n                </ul>\n            </li>\n            <li><strong>Daily Format</strong>:\n                <ul>\n                    <li>This format specifies only the date.</li>\n                    <li>The start time is assumed to be at 00:00 on the specified date in the local timezone of the specified country or bidding zone (bzn).</li>\n                    <li>The end timestamp is interpreted as the last minute of the specified day in the same local timezone.</li>\n                    <li>Example:\n                        <ul>\n                            <li><code>2025-01-01</code> (Starts at 00:00 and ends at 23:59 on January 1, 2025, local time)</li>\n                        </ul>\n                    </li>\n                </ul>\n            </li>\n            <li><strong>UNIX Timestamp</strong>:\n                <ul>\n                    <li>This format specifies the time as the number of seconds since the Unix Epoch (January 1st, 1970, at 00:00 UTC).</li>\n                    <li>Example:\n                        <ul>\n                            <li><code>1735686000</code></li>\n                        </ul>\n                    </li>\n                </ul>\n            </li>\n        </ol>\n        <h4>Default Behavior for Timestamps</h4>\n        <p>If an end timestamp is not explicitly provided, it is assumed to be the same as the start timestamp. For daily formats, this means that one full day will be returned. If also no start timestamp is provided, the current day in the local timezone is used.</p>\n        <h4>Discontinuation of endpoints</h4>\n        <p>Endpoint discontinuations will be preceded by an announcement at least six months in advance, indicated by setting the \"deprecated\" status to true.</p>\n        <h4>Data License</h4>\n        <p>Unless stated otherwise, the data provided by the Energy-Charts API is licensed under the <a href=\"https://creativecommons.org/licenses/by/4.0/\" target=\"_blank\">CC BY 4.0</a> license. Proper attribution to Energy-Charts.info as the source is required.</p>\n       <details>\n       <summary><b>New in release v1.5 (2025-10-21)</b></summary>\n       <ul>\n       <li>\n          Include stricter rate limitations for public API\n          (please contact <a href=\"mailto:leonhard.gandhi@ise.fraunhofer.de\">leonhard.gandhi@ise.fraunhofer.de</a> for commercial access)\n       </li>\n       <li>Improved load balancing on concurrent requests</li>\n       </ul>\n       </details>\n       <details>\n          <summary><b> Older Releases </b></summary>\n           <details>\n           <summary><b>v1.4 (2024-07-08)</b></summary>\n           <ul>\n           <li>Fix bug with wrong timezone for unix timestamps as input</li>\n           </ul>\n           </details>          \n           <details>\n           <summary><b>v1.3 (2024-04-22)</b></summary>\n           <ul>\n           <li>Fix bug which hid most recent data for /cbet and /cbpf</li>\n           <li>Inlcude deprecated tag to all active endpoints</li>\n           </ul>\n           </details>\n           <details>\n           <summary><b>v1.2 (2024-04-16)</b></summary>\n           <ul>\n           <li>Allow also input timestamps in day format and UNIX timestamp</li>\n           <li>Inlcude license info for price data available at /price</li>\n           </ul>\n           </details>\n           <details>\n           <summary><b>v1.1 (2023-10-20)</b></summary>\n           <ul>\n               <li>Deprecated /ren_share</li>\n               <li>Deprecated /ren_share_prognosis and replaced it with /ren_share_forecast</li>\n               <li>Deprecated /power and replaced it with /public_power</li>\n               <li>Deprecated /price_spot_market and replaced it with /price</li>\n               <li>Deprecated /traffic_signal and replaced it with /signal</li>\n               <li>Added endpoint for cross-border electricity trading (/cbet)</li>\n               <li>Added endpoint for cross-border physical flow (/cbpf)</li>\n               <li>Changed response structure of all endpoints to fit with json specification</li>\n               <li>Simplified the response json structure</li>\n               <li>Removed unnecessary information from responses like names, descriptions and units</li>\n               <li>Added typed response schemes to every endpoint</li>\n               <li>Added example values and example requests to every endpoint</li>\n               <li>Added postal code to /signal, to consider grid state in future implementations</li>\n               <li>Responses that return unix timestamps now all return unix seconds</li>\n               <li>Added error handling for false requests and responses</li>\n               <li>Added a list of available bidding zones for /price</li>\n           </ul>\n           </details>\n          <details>\n              <summary><b>v1.0 (2022-11-30)</b></summary>\n              <ul>\n                  <li>Initial release</li>\n              </ul>\n          </details>\n       </details>\n       \n\n<b>Available countries:</b>\n       \n\n<details><summary>de - Germany (click to show all available countries)</summary>\n       ch - Switzerland<br>\n       eu - European Union<br>\n       all - Europe<br>\n       al - Albania<br>\n       am - Armenia<br>\n       at - Austria<br>\n       az - Azerbaijan<br>\n       ba - Bosnia-Herzegovina<br>\n       be - Belgium<br>\n       bg - Bulgaria<br>\n       by - Belarus<br>\n       cy - Cyprus<br>\n       cz - Czech Republic<br>\n       dk - Denmark<br>\n       ee - Estonia<br>\n       es - Spain<br>\n       fi - Finland<br>\n       fr - France<br>\n       ge - Georgia<br>\n       gr - Greece<br>\n       hr - Croatia<br>\n       hu - Hungary<br>\n       ie - Ireland<br>\n       it - Italy<br>\n       lt - Lithuania<br>\n       lu - Luxembourg<br>\n       lv - Latvia<br>\n       md - Moldova<br>\n       me - Montenegro<br>\n       mk - North Macedonia<br>\n       mt - Malta<br>\n       nie - North Ireland<br>\n       nl - Netherlands<br>\n       no - Norway<br>\n       pl - Poland<br>\n       pt - Portugal<br>\n       ro - Romania<br>\n       rs - Serbia<br>\n       ru - Russia<br>\n       se - Sweden<br>\n       si - Slovenia<br>\n       sk - Slovak Republic<br>\n       tr - Turkey<br>\n       ua - Ukraine<br>\n       uk - United Kingdom<br>\n       xk - Kosovo<br>\n       </details>\n       \n\n<b>Available bidding zones:</b>\n       \n\n<details><summary>AT - Austria (click to show all available bidding zones)</summary>\n        BE - Belgium<br>\n        BG - Bulgaria<br>\n        CH - Switzerland<br>\n        CZ - Czech Republic<br>\n        DE-LU - Germany, Luxembourg<br>\n        DE-AT-LU - Germany, Austria, Luxembourg<br>\n        DK1 - Denmark 1<br>\n        DK2 - Denmark 2<br>\n        EE - Estionia<br>\n        ES - Spain<br>\n        FI - Finland<br>\n        FR - France<br>\n        GR - Greece<br>\n        HR - Croatia<br>\n        HU - Hungary<br>\n        IT-Calabria - Italy Calabria<br>\n        IT-Centre-North - Italy Centre North<br>\n        IT-Centre-South - Italy Centre South<br>\n        IT-North - Italy North<br>\n        IT-SACOAC - Italy Sardinia Corsica AC<br>\n        IT-SACODC - Italy Sardinia Corsica DC<br>\n        IT-Sardinia - Italy Sardinia<br>\n        IT-Sicily - Italy Sicily<br>\n        IT-South - Italy South<br>\n        LT - Lithuania<br>\n        LV - Latvia<br>\n        ME - Montenegro<br>\n        NL - Netherlands<br>\n        NO1 - Norway 1<br>\n        NO2 - Norway 2<br>\n        NO2NSL - Norway North Sea Link<br>\n        NO3 - Norway 3<br>\n        NO4 - Norway 4<br>\n        NO5 - Norway 5<br>\n        PL - Poland<br>\n        PT - Portugal<br>\n        RO - Romania<br>\n        RS - Serbia<br>\n        SE1 - Sweden 1<br>\n        SE2 - Sweden 2<br>\n        SE3 - Sweden 3<br>\n        SE4 - Sweden 4<br>\n        SI - Slovenia<br>\n        SK - Slovakia<br>\n       </details>\n       \n\n<b>Hint:</b> Don't use the <b>Try it out</b> button on this documentation page to download large datasets as it might lead to long loading times.\n       \n\nContact Support:\n Name: Contact",
+      "type": "text/plain"
+    }
+  }
+}
