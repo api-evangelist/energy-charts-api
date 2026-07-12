@@ -45,6 +45,8 @@ apis:
         url: >-
           https://raw.githubusercontent.com/api-evangelist/energy-charts-api/refs/heads/main/openapi/energy-charts-api-openapi.yml
 common:
+  - type: DomainSecurity
+    url: security/energy-charts-api-domain-security.yml
   - type: Website
     url: https://www.energy-charts.info/
   - type: Provider
