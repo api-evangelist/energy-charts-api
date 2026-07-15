@@ -1,0 +1,184 @@
+generated: '2026-07-15'
+method: generated
+source: openapi/energy-charts-api-openapi.yml
+description: Recommended x-agentic-access execution contracts, classified heuristically from
+  the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
+  audience per deployment. See research/curity/agentic-governance/.
+summary:
+  operations: 17
+  by_action_class:
+    connected: 17
+  by_consequence:
+    read: 17
+  human_in_the_loop_required: 0
+operations:
+- path: /public_power
+  method: get
+  operationId: public_power_public_power_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /public_power_forecast
+  method: get
+  operationId: public_power_forecast_public_power_forecast_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /total_power
+  method: get
+  operationId: total_power_total_power_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /installed_power
+  method: get
+  operationId: installed_power_installed_power_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /price
+  method: get
+  operationId: day_ahead_price_price_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /cbet
+  method: get
+  operationId: cross_border_electricity_trading_cbet_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /cbpf
+  method: get
+  operationId: cross_border_physical_flows_cbpf_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /signal
+  method: get
+  operationId: traffic_signal_signal_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /ren_share_forecast
+  method: get
+  operationId: renewable_share_forecast_ren_share_forecast_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /ren_share_daily_avg
+  method: get
+  operationId: ren_share_daily_avg_ren_share_daily_avg_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /solar_share
+  method: get
+  operationId: solar_share_solar_share_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /solar_share_daily_avg
+  method: get
+  operationId: solar_share_daily_avg_solar_share_daily_avg_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /wind_onshore_share
+  method: get
+  operationId: wind_onshore_share_wind_onshore_share_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /wind_onshore_share_daily_avg
+  method: get
+  operationId: wind_onshore_share_daily_avg_wind_onshore_share_daily_avg_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /wind_offshore_share
+  method: get
+  operationId: wind_offshore_share_wind_offshore_share_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /wind_offshore_share_daily_avg
+  method: get
+  operationId: wind_offshore_share_daily_avg_wind_offshore_share_daily_avg_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /frequency
+  method: get
+  operationId: frequency_frequency_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
