@@ -6,9 +6,21 @@ description: >-
   capacity, and renewable energy share forecasts. It covers more than 40 European countries and bidding zones, supports
   ISO 8601, daily, and UNIX timestamp formats, and is largely licensed under CC BY 4.0.
 type: Index
+accessModel:
+  pricing: freemium
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Freemium
+  confidence: medium
+  source:
+  - plans
+  generated: '2026-07-22'
+  method: derived
 position: Consumer
 access: 3rd-Party
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/energy-charts-api.png
 tags:
   - Energy
   - Electricity
@@ -23,27 +35,54 @@ modified: '2026-05-19'
 url: https://raw.githubusercontent.com/api-evangelist/energy-charts-api/refs/heads/main/apis.yml
 specificationVersion: '0.19'
 apis:
-  - aid: energy-charts-api:energy-charts-api
-    name: Energy Charts API
-    description: >-
-      Public REST API from Fraunhofer ISE delivering European electricity production, prices, cross-border flows, grid
-      frequency, installed capacity, and renewable share data across 40+ countries and bidding zones with multiple
-      timestamp formats.
-    humanURL: https://api.energy-charts.info/
-    baseURL: https://api.energy-charts.info
-    tags:
-      - Energy
-      - Electricity
-      - Renewables
-      - Grid
-      - Power
-      - Pricing
-    properties:
-      - type: Documentation
-        url: https://api.energy-charts.info/
-      - type: OpenAPI
-        url: >-
-          https://raw.githubusercontent.com/api-evangelist/energy-charts-api/refs/heads/main/openapi/energy-charts-api-openapi.yml
+- aid: energy-charts-api:energy-charts-api-import-export-api
+  name: Energy Charts API import_export API
+  description: Import/export values
+  humanURL: https://api.energy-charts.info/
+  baseURL: https://api.energy-charts.info
+  tags:
+  - import_export
+  properties:
+  - type: OpenAPI
+    url: openapi/energy-charts-api-import-export-api-openapi.yml
+  - type: Documentation
+    url: https://api.energy-charts.info/
+- aid: energy-charts-api:energy-charts-api-power-api
+  name: Energy Charts API power API
+  description: Query power values
+  humanURL: https://api.energy-charts.info/
+  baseURL: https://api.energy-charts.info
+  tags:
+  - power
+  properties:
+  - type: OpenAPI
+    url: openapi/energy-charts-api-power-api-openapi.yml
+  - type: Documentation
+    url: https://api.energy-charts.info/
+- aid: energy-charts-api:energy-charts-api-prices-api
+  name: Energy Charts API prices API
+  description: Query price values
+  humanURL: https://api.energy-charts.info/
+  baseURL: https://api.energy-charts.info
+  tags:
+  - prices
+  properties:
+  - type: OpenAPI
+    url: openapi/energy-charts-api-prices-api-openapi.yml
+  - type: Documentation
+    url: https://api.energy-charts.info/
+- aid: energy-charts-api:energy-charts-api-ren-share-api
+  name: Energy Charts API ren_share API
+  description: Renewable shares
+  humanURL: https://api.energy-charts.info/
+  baseURL: https://api.energy-charts.info
+  tags:
+  - ren_share
+  properties:
+  - type: OpenAPI
+    url: openapi/energy-charts-api-ren-share-api-openapi.yml
+  - type: Documentation
+    url: https://api.energy-charts.info/
 common:
   - type: AgenticAccess
     url: agentic-access/energy-charts-api-agentic-access.yml
