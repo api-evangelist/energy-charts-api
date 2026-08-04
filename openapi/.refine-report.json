@@ -1,0 +1,20 @@
+{
+  "provider": "energy-charts-api",
+  "sources": [
+    "energy-charts-api-import-export-api-openapi.yml",
+    "energy-charts-api-power-api-openapi.yml",
+    "energy-charts-api-prices-api-openapi.yml",
+    "energy-charts-api-ren-share-api-openapi.yml"
+  ],
+  "outputs": [
+    "energy-charts-api-import-export-api-openapi.yml",
+    "energy-charts-api-power-api-openapi.yml",
+    "energy-charts-api-prices-api-openapi.yml",
+    "energy-charts-api-ren-share-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
