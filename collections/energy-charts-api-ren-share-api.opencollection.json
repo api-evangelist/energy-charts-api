@@ -1,0 +1,205 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Energy-Charts import_export ren_share API",
+    "version": "1.5"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ren_share",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Traffic Signal",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/signal",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "postal_code",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "<b>Electricity traffic signal</b>\n    \n\n\n    \n\nReturns the renewable share of load in percent from today until prediction is currently available and the corresponding traffic light.\n    \n\n\n    \n\nThe traffic light \"signal\" is indicated by the following numbers:\n    \n\n\n    -1: Red (grid congestion),\n    0: Red (low renewable share),\n    1: Yellow (average renewable share),\n    2: Green (high renewable share)\n    \n\n\n    \n\nIf no data is available from the primary data providers, a best guess is made"
+        },
+        {
+          "info": {
+            "name": "Renewable Share Forecast",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/ren_share_forecast",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "<b>Renewable share forecast</b>\n    \n\n\n    \n\nReturns the renewable share of load forecast in percent from today until prediction is currently available. It also includes the forecast for solar, wind on- and offshore share of load.\n    \n\n\n    \n\nIf no data is available from the primary data providers, a best guess is made from historic data. This is indicated by \"substitute\" set to True.\n    \n\n\n    \n\nResponse schema:\n    \n\n```json\n{\n    \"unix_seconds\": [int],\n    \"ren_share\": [float],\n    \"solar_s"
+        },
+        {
+          "info": {
+            "name": "Ren Share Daily Avg",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/ren_share_daily_avg",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "year",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "<b>Average daily renewable share of load</b>\n    \n\n\n    \n\nReturns the average daily renewable share of load of the last 365 days (year = -1) or for a given year if provided.\n    \n\n\n    \n\nResponse schema:\n    \n\n```json\n\n    {\n        \"days\": [\"dd.mm.yyyy\"],\n        \"data\": [float],\n        \"deprecated\": bool\n    }\n\n    ```"
+        },
+        {
+          "info": {
+            "name": "Solar Share",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/solar_share",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "<b>Solar Share of Load</b>\n    \n\n\n    \n\nReturns the solar share of load from today until prediction is currently available\n    \n\n\n    \n\nResponse schema:\n    \n\n```json\n{\n    \"unix_seconds\": list[int],\n    \"data\": list[float],\n    \"forecast\": list[float],\n    \"deprecated\": bool\n}\n```"
+        },
+        {
+          "info": {
+            "name": "Solar Share Daily Avg",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/solar_share_daily_avg",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "year",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "<b>Average daily solar share of load</b>\n    \n\n\n    \n\nReturns the average daily solar share of load of the last 365 days (year = -1) or for a given year if provided.\n    \n\n\n    \n\nResponse schema:\n    \n\n```json\n{\n    \"days\": [\"dd.mm.yyyy\"],\n    \"data\": [float],\n    \"deprecated\": bool\n}\n```"
+        },
+        {
+          "info": {
+            "name": "Wind Onshore Share",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/wind_onshore_share",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "<b>Wind Onshore Share of Load</b>\n    \n\n\n    \n\nReturns the wind onshore share of load from today until prediction is currently available\n    \n\n\n    \n\nResponse schema:\n    \n\n```json\n{\n    \"unix_seconds\": list[int],\n    \"data\": list[float],\n    \"forecast\": list[float],\n    \"deprecated\": bool\n}\n```"
+        },
+        {
+          "info": {
+            "name": "Wind Onshore Share Daily Avg",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/wind_onshore_share_daily_avg",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "year",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "<b>Average daily wind onshore share of load</b>\n    \n\n\n    \n\nReturns the average daily wind onshore share of load of the last 365 days\n    \n\n\n    \n\nResponse schema:\n    \n\n```json\n{\n    \"days\": [\"dd.mm.yyyy\"],\n    \"data\": [float],\n    \"deprecated\": bool\n}\n```"
+        },
+        {
+          "info": {
+            "name": "Wind Offshore Share",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/wind_offshore_share",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "<b>Wind Offshore Share of Load</b>\n    \n\n\n    \n\nReturns the wind offshore share of load from today until prediction is currently available\n    \n\n\n    \n\nResponse schema:\n    \n\n```json\n{\n    \"unix_seconds\": list[int],\n    \"data\": list[float],\n    \"forecast\": list[float],\n    \"deprecated\": bool\n}\n```"
+        },
+        {
+          "info": {
+            "name": "Wind Offshore Share Daily Avg",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/wind_offshore_share_daily_avg",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "year",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "<b>Average daily wind offshore share of load</b>\n    \n\n\n    \n\nReturns the average daily wind offshore share of load of the last 365 days\n    \n\n\n    \n\nResponse schema:\n    \n\n```json\n\n{\n    \"days\": [\"dd.mm.yyyy\"],\n    \"data\": [float],\n    \"deprecated\": bool\n}\n\n```"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

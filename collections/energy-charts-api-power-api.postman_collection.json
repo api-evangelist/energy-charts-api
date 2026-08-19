@@ -1,0 +1,806 @@
+{
+  "item": [
+    {
+      "id": "1bd013e2-2016-4788-a5ba-ea8b392f8f33",
+      "name": "power",
+      "description": {
+        "content": "Query power values",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "410eb2e9-229c-41a5-8236-d8005f6474e5",
+          "name": "Public Power",
+          "request": {
+            "name": "Public Power",
+            "description": {
+              "content": "Returns the public net electricity production for a given country for each production type. Subtype can be \"solarlog\" for Switzerland (ch).\n    \n\n\n    \n\nResponse schema:\n    \n\n ```json\n{\n  \"unix_seconds\": list[int],\n  \"production_types\": [\n    {\n        \"name\": str,\n        \"data\": list[float]\n    }\n  ],\n  \"deprecated\": bool\n}\n```",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "public_power"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "de"
+                },
+                {
+                  "disabled": false,
+                  "key": "start",
+                  "value": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "end",
+                  "value": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "subtype",
+                  "value": ""
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3ad6c597-da32-4612-a440-43600998a1a5",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public_power"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    },
+                    {
+                      "key": "start",
+                      "value": ""
+                    },
+                    {
+                      "key": "end",
+                      "value": ""
+                    },
+                    {
+                      "key": "subtype",
+                      "value": ""
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"deprecated\": true,\n  \"unix_seconds\": [\n    8802,\n    839\n  ],\n  \"production_types\": [\n    {\n      \"name\": \"string\",\n      \"data\": [\n        6366.819214247695,\n        9665.601580318658\n      ]\n    },\n    {\n      \"name\": \"string\",\n      \"data\": [\n        8422.252057882512,\n        1509.1404868387249\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ecb8c269-45bf-4ae7-8a82-fa1366336f28",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public_power"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    },
+                    {
+                      "key": "start",
+                      "value": ""
+                    },
+                    {
+                      "key": "end",
+                      "value": ""
+                    },
+                    {
+                      "key": "subtype",
+                      "value": ""
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2fc7383d-f779-417a-974f-f90e360d9ed6",
+          "name": "Public Power Forecast",
+          "request": {
+            "name": "Public Power Forecast",
+            "description": {
+              "content": "Returns the forecast of the public net electricity production for a given country for each production type.\n    \n\n\n    \n\n<b>production_type:</b> Can be solar, wind_onshore, wind_offshore or load\n    <br><b>forecast_type:</b> Can be current, intraday or day-ahead\n    \n\n\n    \n\nIf no dates are provided, values for today until forecast is available are returned. For load only the forecast type \"day-ahead\" is available.\n    \n\n\n    \n\nResponse schema:\n    \n\n ```json\n{\n  \"unix_seconds\": list[int],\n  \"forecast_values\": list[float],\n  \"production_type\": str,\n  \"forecast_type\": str,\n  \"deprecated\": bool\n}\n```",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "public_power_forecast"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "de"
+                },
+                {
+                  "disabled": false,
+                  "key": "production_type",
+                  "value": "solar"
+                },
+                {
+                  "disabled": false,
+                  "key": "forecast_type",
+                  "value": "current"
+                },
+                {
+                  "disabled": false,
+                  "key": "start",
+                  "value": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "end",
+                  "value": ""
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "94116d88-ccb3-4d3f-bc7b-b05cf2a2c59d",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public_power_forecast"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    },
+                    {
+                      "key": "production_type",
+                      "value": "solar"
+                    },
+                    {
+                      "key": "forecast_type",
+                      "value": "current"
+                    },
+                    {
+                      "key": "start",
+                      "value": ""
+                    },
+                    {
+                      "key": "end",
+                      "value": ""
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"unix_seconds\": [\n    9917,\n    9373\n  ],\n  \"forecast_values\": [\n    6184.672613425095,\n    4572.216440737362\n  ],\n  \"production_type\": \"string\",\n  \"forecast_type\": \"string\",\n  \"deprecated\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dbfd1827-4474-484e-81fe-001927abc7f8",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public_power_forecast"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    },
+                    {
+                      "key": "production_type",
+                      "value": "solar"
+                    },
+                    {
+                      "key": "forecast_type",
+                      "value": "current"
+                    },
+                    {
+                      "key": "start",
+                      "value": ""
+                    },
+                    {
+                      "key": "end",
+                      "value": ""
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "73dfce04-ed6c-403b-9de1-c01fc38be7ef",
+          "name": "Total Power",
+          "request": {
+            "name": "Total Power",
+            "description": {
+              "content": "Returns the total net electricity production (including industrial self supply) for a given country for each production type.\n    \n\n\n    \n\nCurrently only available for Germany.\n    \n\n\n    \n\nResponse schema:\n    \n\n ```json\n{\n  \"unix_seconds\": list[int],\n  \"production_types\": [\n    {\n        \"name\": str,\n        \"data\": list[float]\n    }\n  ],\n  \"deprecated\": bool\n}\n```",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "total_power"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "de"
+                },
+                {
+                  "disabled": false,
+                  "key": "start",
+                  "value": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "end",
+                  "value": ""
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0d3b25dc-d989-4bc1-9ad0-9198360f9296",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "total_power"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    },
+                    {
+                      "key": "start",
+                      "value": ""
+                    },
+                    {
+                      "key": "end",
+                      "value": ""
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"deprecated\": true,\n  \"unix_seconds\": [\n    8802,\n    839\n  ],\n  \"production_types\": [\n    {\n      \"name\": \"string\",\n      \"data\": [\n        6366.819214247695,\n        9665.601580318658\n      ]\n    },\n    {\n      \"name\": \"string\",\n      \"data\": [\n        8422.252057882512,\n        1509.1404868387249\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "19099f17-0e44-47e4-ab8e-414e876267fe",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "total_power"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    },
+                    {
+                      "key": "start",
+                      "value": ""
+                    },
+                    {
+                      "key": "end",
+                      "value": ""
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fe62fc9e-e1d8-4b45-b95e-4a3eeb6ee26b",
+          "name": "Installed Power",
+          "request": {
+            "name": "Installed Power",
+            "description": {
+              "content": "Returns the installed power for a specified country in GW except for battery storage capacity, which is given in GWh. Monthly installation / decommission numbers are returned in MW instead of GW. \"last_update\" is the time of the last data update, expressed as seconds since the Unix epoch (UTC).\n    \n\n\n    \n\n<b>time_step:</b> Time step can be either \"yearly\" or \"monthly\" (only for Germany)\n    <br><b>installation_decommission:</b> If true, the net installation / decommission numbers are returned instead of total installed power\n    \n\n\n    \n\nResponse schema:\n    \n\n ```json\n{ \n  \"time\": list[str],\n  \"production_types\": [\n    {\n        \"name\": str, \n        \"data\": list[float]\n    }\n  ],\n  \"last_update\": int,\n  \"deprecated\": bool\n}\n```",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "installed_power"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "country",
+                  "value": "de"
+                },
+                {
+                  "disabled": false,
+                  "key": "time_step",
+                  "value": "yearly"
+                },
+                {
+                  "disabled": false,
+                  "key": "installation_decommission",
+                  "value": "false"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "873f8f31-e292-4460-b75d-2e496e5fef9e",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "installed_power"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    },
+                    {
+                      "key": "time_step",
+                      "value": "yearly"
+                    },
+                    {
+                      "key": "installation_decommission",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"time\": [\n    \"string\",\n    \"string\"\n  ],\n  \"last_update\": 8994,\n  \"deprecated\": false,\n  \"production_types\": [\n    {\n      \"name\": \"string\",\n      \"data\": [\n        3099.176315656319,\n        5254.527765385217\n      ]\n    },\n    {\n      \"name\": \"string\",\n      \"data\": [\n        2805.730948927078,\n        8988.393024862497\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9422a324-800d-4c5e-86fc-3eab69ca11aa",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "installed_power"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country",
+                      "value": "de"
+                    },
+                    {
+                      "key": "time_step",
+                      "value": "yearly"
+                    },
+                    {
+                      "key": "installation_decommission",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b4f352a9-9bee-441a-8ede-9bd335d71b98",
+          "name": "Frequency",
+          "request": {
+            "name": "Frequency",
+            "description": {
+              "content": "Returns the frequency measured at Fraunhofer ISE in Freiburg, Germany. Currently only the frequency in RG Continental Europe (formerly UCTE) is available. The data is available in 1 second timesteps from 1st of May 2022 onwards.\n    \n\n\n    \n\nResponse schema:\n    \n\n ```json\n{\n  \"unix_seconds\": list[int],\n  \"data\": list[float],\n  \"deprecated\": bool\n}\n```",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "frequency"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "region",
+                  "value": "DE-Freiburg"
+                },
+                {
+                  "disabled": false,
+                  "key": "start",
+                  "value": ""
+                },
+                {
+                  "disabled": false,
+                  "key": "end",
+                  "value": ""
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "be00929e-5990-4809-b226-1f952e24f40f",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "frequency"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "region",
+                      "value": "DE-Freiburg"
+                    },
+                    {
+                      "key": "start",
+                      "value": ""
+                    },
+                    {
+                      "key": "end",
+                      "value": ""
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    5265.300152371354,\n    8794.87268335388\n  ],\n  \"deprecated\": false,\n  \"unix_seconds\": [\n    9409,\n    4487\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4579bef7-29de-4420-b076-bec15079b316",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "frequency"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "region",
+                      "value": "DE-Freiburg"
+                    },
+                    {
+                      "key": "start",
+                      "value": ""
+                    },
+                    {
+                      "key": "end",
+                      "value": ""
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "defce174-a299-4c24-8e48-b466bb791458",
+    "name": "Energy-Charts import_export power API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "\n       \n\n<h4>Timestamp Format Options</h4>\n        <p>When specifying timestamps, you can choose from the following three formats:</p>\n        <ol>\n            <li><strong>ISO 8601 Format</strong>:\n                <ul>\n                    <li>This format includes the full date and time, with an optional timezone indicator.</li>\n                    <li>Examples:\n                        <ul>\n                            <li><code>2025-01-01T17:00Z</code> (UTC time)</li>\n                            <li><code>2025-01-01T18:00+01:00</code> (Local time offset by +01:00)</li>\n                        </ul>\n                    </li>\n                </ul>\n            </li>\n            <li><strong>Daily Format</strong>:\n                <ul>\n                    <li>This format specifies only the date.</li>\n                    <li>The start time is assumed to be at 00:00 on the specified date in the local timezone of the specified country or bidding zone (bzn).</li>\n                    <li>The end timestamp is interpreted as the last minute of the specified day in the same local timezone.</li>\n                    <li>Example:\n                        <ul>\n                            <li><code>2025-01-01</code> (Starts at 00:00 and ends at 23:59 on January 1, 2025, local time)</li>\n                        </ul>\n                    </li>\n                </ul>\n            </li>\n            <li><strong>UNIX Timestamp</strong>:\n                <ul>\n                    <li>This format specifies the time as the number of seconds since the Unix Epoch (January 1st, 1970, at 00:00 UTC).</li>\n                    <li>Example:\n                        <ul>\n                            <li><code>1735686000</code></li>\n                        </ul>\n                    </li>\n                </ul>\n            </li>\n        </ol>\n        <h4>Default Behavior for Timestamps</h4>\n        <p>If an end timestamp is not explicitly provided, it is assumed to be the same as the start timestamp. For daily formats, this means that one full day will be returned. If also no start timestamp is provided, the current day in the local timezone is used.</p>\n        <h4>Discontinuation of endpoints</h4>\n        <p>Endpoint discontinuations will be preceded by an announcement at least six months in advance, indicated by setting the \"deprecated\" status to true.</p>\n        <h4>Data License</h4>\n        <p>Unless stated otherwise, the data provided by the Energy-Charts API is licensed under the <a href=\"https://creativecommons.org/licenses/by/4.0/\" target=\"_blank\">CC BY 4.0</a> license. Proper attribution to Energy-Charts.info as the source is required.</p>\n       <details>\n       <summary><b>New in release v1.5 (2025-10-21)</b></summary>\n       <ul>\n       <li>\n          Include stricter rate limitations for public API\n          (please contact <a href=\"mailto:leonhard.gandhi@ise.fraunhofer.de\">leonhard.gandhi@ise.fraunhofer.de</a> for commercial access)\n       </li>\n       <li>Improved load balancing on concurrent requests</li>\n       </ul>\n       </details>\n       <details>\n          <summary><b> Older Releases </b></summary>\n           <details>\n           <summary><b>v1.4 (2024-07-08)</b></summary>\n           <ul>\n           <li>Fix bug with wrong timezone for unix timestamps as input</li>\n           </ul>\n           </details>          \n           <details>\n           <summary><b>v1.3 (2024-04-22)</b></summary>\n           <ul>\n           <li>Fix bug which hid most recent data for /cbet and /cbpf</li>\n           <li>Inlcude deprecated tag to all active endpoints</li>\n           </ul>\n           </details>\n           <details>\n           <summary><b>v1.2 (2024-04-16)</b></summary>\n           <ul>\n           <li>Allow also input timestamps in day format and UNIX timestamp</li>\n           <li>Inlcude license info for price data available at /price</li>\n           </ul>\n           </details>\n           <details>\n           <summary><b>v1.1 (2023-10-20)</b></summary>\n           <ul>\n               <li>Deprecated /ren_share</li>\n               <li>Deprecated /ren_share_prognosis and replaced it with /ren_share_forecast</li>\n               <li>Deprecated /power and replaced it with /public_power</li>\n               <li>Deprecated /price_spot_market and replaced it with /price</li>\n               <li>Deprecated /traffic_signal and replaced it with /signal</li>\n               <li>Added endpoint for cross-border electricity trading (/cbet)</li>\n               <li>Added endpoint for cross-border physical flow (/cbpf)</li>\n               <li>Changed response structure of all endpoints to fit with json specification</li>\n               <li>Simplified the response json structure</li>\n               <li>Removed unnecessary information from responses like names, descriptions and units</li>\n               <li>Added typed response schemes to every endpoint</li>\n               <li>Added example values and example requests to every endpoint</li>\n               <li>Added postal code to /signal, to consider grid state in future implementations</li>\n               <li>Responses that return unix timestamps now all return unix seconds</li>\n               <li>Added error handling for false requests and responses</li>\n               <li>Added a list of available bidding zones for /price</li>\n           </ul>\n           </details>\n          <details>\n              <summary><b>v1.0 (2022-11-30)</b></summary>\n              <ul>\n                  <li>Initial release</li>\n              </ul>\n          </details>\n       </details>\n       \n\n<b>Available countries:</b>\n       \n\n<details><summary>de - Germany (click to show all available countries)</summary>\n       ch - Switzerland<br>\n       eu - European Union<br>\n       all - Europe<br>\n       al - Albania<br>\n       am - Armenia<br>\n       at - Austria<br>\n       az - Azerbaijan<br>\n       ba - Bosnia-Herzegovina<br>\n       be - Belgium<br>\n       bg - Bulgaria<br>\n       by - Belarus<br>\n       cy - Cyprus<br>\n       cz - Czech Republic<br>\n       dk - Denmark<br>\n       ee - Estonia<br>\n       es - Spain<br>\n       fi - Finland<br>\n       fr - France<br>\n       ge - Georgia<br>\n       gr - Greece<br>\n       hr - Croatia<br>\n       hu - Hungary<br>\n       ie - Ireland<br>\n       it - Italy<br>\n       lt - Lithuania<br>\n       lu - Luxembourg<br>\n       lv - Latvia<br>\n       md - Moldova<br>\n       me - Montenegro<br>\n       mk - North Macedonia<br>\n       mt - Malta<br>\n       nie - North Ireland<br>\n       nl - Netherlands<br>\n       no - Norway<br>\n       pl - Poland<br>\n       pt - Portugal<br>\n       ro - Romania<br>\n       rs - Serbia<br>\n       ru - Russia<br>\n       se - Sweden<br>\n       si - Slovenia<br>\n       sk - Slovak Republic<br>\n       tr - Turkey<br>\n       ua - Ukraine<br>\n       uk - United Kingdom<br>\n       xk - Kosovo<br>\n       </details>\n       \n\n<b>Available bidding zones:</b>\n       \n\n<details><summary>AT - Austria (click to show all available bidding zones)</summary>\n        BE - Belgium<br>\n        BG - Bulgaria<br>\n        CH - Switzerland<br>\n        CZ - Czech Republic<br>\n        DE-LU - Germany, Luxembourg<br>\n        DE-AT-LU - Germany, Austria, Luxembourg<br>\n        DK1 - Denmark 1<br>\n        DK2 - Denmark 2<br>\n        EE - Estionia<br>\n        ES - Spain<br>\n        FI - Finland<br>\n        FR - France<br>\n        GR - Greece<br>\n        HR - Croatia<br>\n        HU - Hungary<br>\n        IT-Calabria - Italy Calabria<br>\n        IT-Centre-North - Italy Centre North<br>\n        IT-Centre-South - Italy Centre South<br>\n        IT-North - Italy North<br>\n        IT-SACOAC - Italy Sardinia Corsica AC<br>\n        IT-SACODC - Italy Sardinia Corsica DC<br>\n        IT-Sardinia - Italy Sardinia<br>\n        IT-Sicily - Italy Sicily<br>\n        IT-South - Italy South<br>\n        LT - Lithuania<br>\n        LV - Latvia<br>\n        ME - Montenegro<br>\n        NL - Netherlands<br>\n        NO1 - Norway 1<br>\n        NO2 - Norway 2<br>\n        NO2NSL - Norway North Sea Link<br>\n        NO3 - Norway 3<br>\n        NO4 - Norway 4<br>\n        NO5 - Norway 5<br>\n        PL - Poland<br>\n        PT - Portugal<br>\n        RO - Romania<br>\n        RS - Serbia<br>\n        SE1 - Sweden 1<br>\n        SE2 - Sweden 2<br>\n        SE3 - Sweden 3<br>\n        SE4 - Sweden 4<br>\n        SI - Slovenia<br>\n        SK - Slovakia<br>\n       </details>\n       \n\n<b>Hint:</b> Don't use the <b>Try it out</b> button on this documentation page to download large datasets as it might lead to long loading times.\n       \n\nContact Support:\n Name: Contact",
+      "type": "text/plain"
+    }
+  }
+}

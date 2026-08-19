@@ -1,0 +1,74 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Energy-Charts import_export API",
+    "version": "1.5"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "import_export",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Cross Border Electricity Trading",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/cbet",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the cross-border electricity trading (cbet) in GW between a specified country and its neighbors.\n        \n\nPositive values indicate an import of electricity, whereas negative values show electricity exports.\n        \n\n\n        \n\nResponse schema:\n        \n\n```json\n{\n    \"unix_seconds\": [int],\n    \"countries\": [\n        {\n        \"name\": str,\n        \"data\": [float]\n        }\n    ],\n    \"deprecated\": bool\n}\n```"
+        },
+        {
+          "info": {
+            "name": "Cross Border Physical Flows",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/cbpf",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the cross-border physical flows (cbpfs) of electricity in GW between a specified country and its neighbors.\n        \n\nPositive values indicate an import of electricity, whereas negative values show electricity exports.\n        \n\n\n        \n\nResponse schema:\n        \n\n```json\n{\n    \"unix_seconds\": [int],\n    \"countries\": [\n        {\n        \"name\": str,\n        \"data\": [float]\n        }\n    ],\n    \"deprecated\": bool\n}\n```"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

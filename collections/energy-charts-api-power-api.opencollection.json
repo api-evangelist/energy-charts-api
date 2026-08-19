@@ -1,0 +1,173 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Energy-Charts import_export power API",
+    "version": "1.5"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "power",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Public Power",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/public_power",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "subtype",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the public net electricity production for a given country for each production type. Subtype can be \"solarlog\" for Switzerland (ch).\n    \n\n\n    \n\nResponse schema:\n    \n\n ```json\n{\n  \"unix_seconds\": list[int],\n  \"production_types\": [\n    {\n        \"name\": str,\n        \"data\": list[float]\n    }\n  ],\n  \"deprecated\": bool\n}\n```"
+        },
+        {
+          "info": {
+            "name": "Public Power Forecast",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/public_power_forecast",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "production_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "forecast_type",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the forecast of the public net electricity production for a given country for each production type.\n    \n\n\n    \n\n<b>production_type:</b> Can be solar, wind_onshore, wind_offshore or load\n    <br><b>forecast_type:</b> Can be current, intraday or day-ahead\n    \n\n\n    \n\nIf no dates are provided, values for today until forecast is available are returned. For load only the forecast type \"day-ahead\" is available.\n    \n\n\n    \n\nResponse schema:\n    \n\n ```json\n{\n  \"unix_seconds\": list[int],\n  \"fo"
+        },
+        {
+          "info": {
+            "name": "Total Power",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/total_power",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the total net electricity production (including industrial self supply) for a given country for each production type.\n    \n\n\n    \n\nCurrently only available for Germany.\n    \n\n\n    \n\nResponse schema:\n    \n\n ```json\n{\n  \"unix_seconds\": list[int],\n  \"production_types\": [\n    {\n        \"name\": str,\n        \"data\": list[float]\n    }\n  ],\n  \"deprecated\": bool\n}\n```"
+        },
+        {
+          "info": {
+            "name": "Installed Power",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/installed_power",
+            "params": [
+              {
+                "name": "country",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "time_step",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "installation_decommission",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the installed power for a specified country in GW except for battery storage capacity, which is given in GWh. Monthly installation / decommission numbers are returned in MW instead of GW. \"last_update\" is the time of the last data update, expressed as seconds since the Unix epoch (UTC).\n    \n\n\n    \n\n<b>time_step:</b> Time step can be either \"yearly\" or \"monthly\" (only for Germany)\n    <br><b>installation_decommission:</b> If true, the net installation / decommission numbers are returned "
+        },
+        {
+          "info": {
+            "name": "Frequency",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/frequency",
+            "params": [
+              {
+                "name": "region",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the frequency measured at Fraunhofer ISE in Freiburg, Germany. Currently only the frequency in RG Continental Europe (formerly UCTE) is available. The data is available in 1 second timesteps from 1st of May 2022 onwards.\n    \n\n\n    \n\nResponse schema:\n    \n\n ```json\n{\n  \"unix_seconds\": list[int],\n  \"data\": list[float],\n  \"deprecated\": bool\n}\n```"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

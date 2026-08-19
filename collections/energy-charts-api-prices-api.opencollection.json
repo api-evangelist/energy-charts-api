@@ -1,0 +1,46 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Energy-Charts import_export prices API",
+    "version": "1.5"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "prices",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Day Ahead Price",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/price",
+            "params": [
+              {
+                "name": "bzn",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "end",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the day-ahead spot market price for a specified bidding zone in EUR/MWh.\n    \n\n\n    \n\nAvailable bidding zones (bzn) are shown above.\n    \n\n\n    \n\n<b>The data for the following bidding zones is licensed as <a href=\"https://creativecommons.org/licenses/by/4.0/\" target=\"_blank\">CC BY 4.0</a> from Bundesnetzagentur | SMARD.de and is published without changes:\n    <ul>\n        <li>AT (Austria)</li>\n        <li>BE (Belgium)</li>\n        <li>CH (Switzerland)</li>\n        <li>CZ (Czech Republic)"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
