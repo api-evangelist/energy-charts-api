@@ -29,6 +29,15 @@ tags:
   - Europe
   - Power
   - Pricing
+  - Forecast
+tags_raw:
+  - Energy
+  - Electricity
+  - Renewables
+  - Grid
+  - Europe
+  - Power
+  - Pricing
   - Forecasts
 created: '2025-05-02'
 modified: '2026-05-19'
@@ -41,6 +50,8 @@ apis:
   humanURL: https://api.energy-charts.info/
   baseURL: https://api.energy-charts.info
   tags:
+  - Import Export
+  tags_raw:
   - import_export
   properties:
   - type: OpenAPI
@@ -53,6 +64,8 @@ apis:
   humanURL: https://api.energy-charts.info/
   baseURL: https://api.energy-charts.info
   tags:
+  - Power
+  tags_raw:
   - power
   properties:
   - type: OpenAPI
@@ -65,6 +78,8 @@ apis:
   humanURL: https://api.energy-charts.info/
   baseURL: https://api.energy-charts.info
   tags:
+  - Prices
+  tags_raw:
   - prices
   properties:
   - type: OpenAPI
@@ -76,7 +91,8 @@ apis:
   description: Renewable shares
   humanURL: https://api.energy-charts.info/
   baseURL: https://api.energy-charts.info
-  tags:
+  tags: []
+  tags_raw:
   - ren_share
   properties:
   - type: OpenAPI
