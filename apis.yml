@@ -6,6 +6,17 @@ description: >-
   capacity, and renewable energy share forecasts. It covers more than 40 European countries and bidding zones, supports
   ISO 8601, daily, and UNIX timestamp formats, and is largely licensed under CC BY 4.0.
 type: Index
+deliveryModel:
+  model: unknown
+  open_source: false
+  commercial: false
+  callable_host: true
+  label: Delivery model not determined — needs a product licence on record
+  confidence: low
+  source:
+  - openapi
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: unknown
