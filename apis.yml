@@ -60,7 +60,8 @@ apis:
   description: Import/export values
   humanURL: https://api.energy-charts.info/
   baseURL: https://api.energy-charts.info
-  tags: []
+  tags:
+  - Import Export
   tags_raw:
   - import_export
   properties:
@@ -88,7 +89,7 @@ apis:
   humanURL: https://api.energy-charts.info/
   baseURL: https://api.energy-charts.info
   tags:
-  - prices
+  - Prices
   tags_raw:
   - prices
   properties:
