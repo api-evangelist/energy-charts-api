@@ -400,44 +400,15 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    NamedData:
+    HTTPValidationError:
       properties:
-        name:
-          type: string
-          title: Name
-        data:
+        detail:
           items:
-            anyOf:
-            - type: number
-            - type: 'null'
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Data
+          title: Detail
       type: object
-      required:
-      - name
-      - data
-      title: NamedData
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      title: HTTPValidationError
     ProductionModel:
       properties:
         unix_seconds:
@@ -489,6 +460,68 @@ components:
       - last_update
       - deprecated
       title: InstalledModel
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    NamedData:
+      properties:
+        name:
+          type: string
+          title: Name
+        data:
+          items:
+            anyOf:
+            - type: number
+            - type: 'null'
+          type: array
+          title: Data
+      type: object
+      required:
+      - name
+      - data
+      title: NamedData
+    FrequencyModel:
+      properties:
+        unix_seconds:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Unix Seconds
+        data:
+          items:
+            anyOf:
+            - type: number
+            - type: 'null'
+          type: array
+          title: Data
+        deprecated:
+          type: boolean
+          title: Deprecated
+      type: object
+      required:
+      - data
+      - deprecated
+      title: FrequencyModel
     PublicPowerForecastModel:
       properties:
         unix_seconds:
@@ -520,36 +553,3 @@ components:
       - forecast_type
       - deprecated
       title: PublicPowerForecastModel
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    FrequencyModel:
-      properties:
-        unix_seconds:
-          anyOf:
-          - items:
-              type: integer
-            type: array
-          - type: 'null'
-          title: Unix Seconds
-        data:
-          items:
-            anyOf:
-            - type: number
-            - type: 'null'
-          type: array
-          title: Data
-        deprecated:
-          type: boolean
-          title: Deprecated
-      type: object
-      required:
-      - data
-      - deprecated
-      title: FrequencyModel

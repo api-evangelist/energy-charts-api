@@ -171,23 +171,15 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    NamedData:
+    HTTPValidationError:
       properties:
-        name:
-          type: string
-          title: Name
-        data:
+        detail:
           items:
-            anyOf:
-            - type: number
-            - type: 'null'
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Data
+          title: Detail
       type: object
-      required:
-      - name
-      - data
-      title: NamedData
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -209,6 +201,23 @@ components:
       - msg
       - type
       title: ValidationError
+    NamedData:
+      properties:
+        name:
+          type: string
+          title: Name
+        data:
+          items:
+            anyOf:
+            - type: number
+            - type: 'null'
+          type: array
+          title: Data
+      type: object
+      required:
+      - name
+      - data
+      title: NamedData
     CrossBorderModel:
       properties:
         unix_seconds:
@@ -232,12 +241,3 @@ components:
       required:
       - deprecated
       title: CrossBorderModel
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError

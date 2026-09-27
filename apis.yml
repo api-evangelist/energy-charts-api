@@ -56,7 +56,7 @@ url: https://raw.githubusercontent.com/api-evangelist/energy-charts-api/refs/hea
 specificationVersion: '0.23'
 apis:
 - aid: energy-charts-api:energy-charts-api-import-export-api
-  name: Energy Charts API import_export API
+  name: Energy Charts API Import Export API
   description: Import/export values
   humanURL: https://api.energy-charts.info/
   baseURL: https://api.energy-charts.info
@@ -70,7 +70,7 @@ apis:
   - type: Documentation
     url: https://api.energy-charts.info/
 - aid: energy-charts-api:energy-charts-api-power-api
-  name: Energy Charts API power API
+  name: Energy Charts API Power API
   description: Query power values
   humanURL: https://api.energy-charts.info/
   baseURL: https://api.energy-charts.info
@@ -84,7 +84,7 @@ apis:
   - type: Documentation
     url: https://api.energy-charts.info/
 - aid: energy-charts-api:energy-charts-api-prices-api
-  name: Energy Charts API prices API
+  name: Energy Charts API Prices API
   description: Query price values
   humanURL: https://api.energy-charts.info/
   baseURL: https://api.energy-charts.info
@@ -98,7 +98,7 @@ apis:
   - type: Documentation
     url: https://api.energy-charts.info/
 - aid: energy-charts-api:energy-charts-api-ren-share-api
-  name: Energy Charts API ren_share API
+  name: Energy Charts API Ren Share API
   description: Renewable shares
   humanURL: https://api.energy-charts.info/
   baseURL: https://api.energy-charts.info

@@ -544,86 +544,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    DailyAvgDict:
-      properties:
-        days:
-          items:
-            type: string
-          type: array
-          title: Days
-          description: List of days in the format dd.mm.yyyy
-        data:
-          items:
-            anyOf:
-            - type: number
-            - type: 'null'
-          type: array
-          title: Data
-          description: List of average daily values
-        deprecated:
-          type: boolean
-          title: Deprecated
-      type: object
-      required:
-      - days
-      - data
-      - deprecated
-      title: DailyAvgDict
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ShareModel:
-      properties:
-        unix_seconds:
-          anyOf:
-          - items:
-              type: integer
-            type: array
-          - type: 'null'
-          title: Unix Seconds
-        data:
-          anyOf:
-          - items:
-              anyOf:
-              - type: number
-              - type: 'null'
-            type: array
-          - type: 'null'
-          title: Data
-        forecast:
-          anyOf:
-          - items:
-              anyOf:
-              - type: number
-              - type: 'null'
-            type: array
-          - type: 'null'
-          title: Forecast
-        deprecated:
-          type: boolean
-          title: Deprecated
-      type: object
-      required:
-      - deprecated
-      title: ShareModel
     HTTPValidationError:
       properties:
         detail:
@@ -681,6 +601,31 @@ components:
       - substitute
       - deprecated
       title: RenShareModel
+    DailyAvgDict:
+      properties:
+        days:
+          items:
+            type: string
+          type: array
+          title: Days
+          description: List of days in the format dd.mm.yyyy
+        data:
+          items:
+            anyOf:
+            - type: number
+            - type: 'null'
+          type: array
+          title: Data
+          description: List of average daily values
+        deprecated:
+          type: boolean
+          title: Deprecated
+      type: object
+      required:
+      - days
+      - data
+      - deprecated
+      title: DailyAvgDict
     TrafficModel:
       properties:
         unix_seconds:
@@ -716,3 +661,58 @@ components:
       - substitute
       - deprecated
       title: TrafficModel
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ShareModel:
+      properties:
+        unix_seconds:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Unix Seconds
+        data:
+          anyOf:
+          - items:
+              anyOf:
+              - type: number
+              - type: 'null'
+            type: array
+          - type: 'null'
+          title: Data
+        forecast:
+          anyOf:
+          - items:
+              anyOf:
+              - type: number
+              - type: 'null'
+            type: array
+          - type: 'null'
+          title: Forecast
+        deprecated:
+          type: boolean
+          title: Deprecated
+      type: object
+      required:
+      - deprecated
+      title: ShareModel
