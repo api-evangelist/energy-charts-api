@@ -409,29 +409,27 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    ProductionModel:
+    ValidationError:
       properties:
-        unix_seconds:
-          anyOf:
-          - items:
-              type: integer
-            type: array
-          - type: 'null'
-          title: Unix Seconds
-        production_types:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/NamedData'
-            type: array
-          - type: 'null'
-          title: Production Types
-        deprecated:
-          type: boolean
-          title: Deprecated
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
       type: object
       required:
-      - deprecated
-      title: ProductionModel
+      - loc
+      - msg
+      - type
+      title: ValidationError
     InstalledModel:
       properties:
         time:
@@ -460,27 +458,6 @@ components:
       - last_update
       - deprecated
       title: InstalledModel
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     NamedData:
       properties:
         name:
@@ -498,30 +475,6 @@ components:
       - name
       - data
       title: NamedData
-    FrequencyModel:
-      properties:
-        unix_seconds:
-          anyOf:
-          - items:
-              type: integer
-            type: array
-          - type: 'null'
-          title: Unix Seconds
-        data:
-          items:
-            anyOf:
-            - type: number
-            - type: 'null'
-          type: array
-          title: Data
-        deprecated:
-          type: boolean
-          title: Deprecated
-      type: object
-      required:
-      - data
-      - deprecated
-      title: FrequencyModel
     PublicPowerForecastModel:
       properties:
         unix_seconds:
@@ -553,3 +506,50 @@ components:
       - forecast_type
       - deprecated
       title: PublicPowerForecastModel
+    FrequencyModel:
+      properties:
+        unix_seconds:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Unix Seconds
+        data:
+          items:
+            anyOf:
+            - type: number
+            - type: 'null'
+          type: array
+          title: Data
+        deprecated:
+          type: boolean
+          title: Deprecated
+      type: object
+      required:
+      - data
+      - deprecated
+      title: FrequencyModel
+    ProductionModel:
+      properties:
+        unix_seconds:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Unix Seconds
+        production_types:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/NamedData'
+            type: array
+          - type: 'null'
+          title: Production Types
+        deprecated:
+          type: boolean
+          title: Deprecated
+      type: object
+      required:
+      - deprecated
+      title: ProductionModel

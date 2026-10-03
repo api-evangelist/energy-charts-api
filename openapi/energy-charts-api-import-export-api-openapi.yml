@@ -171,6 +171,29 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    CrossBorderModel:
+      properties:
+        unix_seconds:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Unix Seconds
+        countries:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/NamedData'
+            type: array
+          - type: 'null'
+          title: Countries
+        deprecated:
+          type: boolean
+          title: Deprecated
+      type: object
+      required:
+      - deprecated
+      title: CrossBorderModel
     HTTPValidationError:
       properties:
         detail:
@@ -218,26 +241,3 @@ components:
       - name
       - data
       title: NamedData
-    CrossBorderModel:
-      properties:
-        unix_seconds:
-          anyOf:
-          - items:
-              type: integer
-            type: array
-          - type: 'null'
-          title: Unix Seconds
-        countries:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/NamedData'
-            type: array
-          - type: 'null'
-          title: Countries
-        deprecated:
-          type: boolean
-          title: Deprecated
-      type: object
-      required:
-      - deprecated
-      title: CrossBorderModel

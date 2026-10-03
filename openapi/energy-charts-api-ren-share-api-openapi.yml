@@ -553,114 +553,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    RenShareModel:
-      properties:
-        unix_seconds:
-          items:
-            type: integer
-          type: array
-          title: Unix Seconds
-        ren_share:
-          items:
-            anyOf:
-            - type: number
-            - type: 'null'
-          type: array
-          title: Ren Share
-        solar_share:
-          anyOf:
-          - items:
-              type: number
-            type: array
-          - type: 'null'
-          title: Solar Share
-        wind_onshore_share:
-          anyOf:
-          - items:
-              type: number
-            type: array
-          - type: 'null'
-          title: Wind Onshore Share
-        wind_offshore_share:
-          anyOf:
-          - items:
-              type: number
-            type: array
-          - type: 'null'
-          title: Wind Offshore Share
-        substitute:
-          type: boolean
-          title: Substitute
-        deprecated:
-          type: boolean
-          title: Deprecated
-      type: object
-      required:
-      - unix_seconds
-      - ren_share
-      - substitute
-      - deprecated
-      title: RenShareModel
-    DailyAvgDict:
-      properties:
-        days:
-          items:
-            type: string
-          type: array
-          title: Days
-          description: List of days in the format dd.mm.yyyy
-        data:
-          items:
-            anyOf:
-            - type: number
-            - type: 'null'
-          type: array
-          title: Data
-          description: List of average daily values
-        deprecated:
-          type: boolean
-          title: Deprecated
-      type: object
-      required:
-      - days
-      - data
-      - deprecated
-      title: DailyAvgDict
-    TrafficModel:
-      properties:
-        unix_seconds:
-          items:
-            type: integer
-          type: array
-          title: Unix Seconds
-        share:
-          items:
-            anyOf:
-            - type: number
-            - type: 'null'
-          type: array
-          title: Share
-        signal:
-          items:
-            anyOf:
-            - type: integer
-            - type: 'null'
-          type: array
-          title: Signal
-          description: "\n    0: Red (low renewable share)\n    1: Yellow (average renewable share)\n    2: Green (high renewable share)\n    "
-        substitute:
-          type: boolean
-          title: Substitute
-        deprecated:
-          type: boolean
-          title: Deprecated
-      type: object
-      required:
-      - unix_seconds
-      - share
-      - substitute
-      - deprecated
-      title: TrafficModel
     ValidationError:
       properties:
         loc:
@@ -716,3 +608,111 @@ components:
       required:
       - deprecated
       title: ShareModel
+    RenShareModel:
+      properties:
+        unix_seconds:
+          items:
+            type: integer
+          type: array
+          title: Unix Seconds
+        ren_share:
+          items:
+            anyOf:
+            - type: number
+            - type: 'null'
+          type: array
+          title: Ren Share
+        solar_share:
+          anyOf:
+          - items:
+              type: number
+            type: array
+          - type: 'null'
+          title: Solar Share
+        wind_onshore_share:
+          anyOf:
+          - items:
+              type: number
+            type: array
+          - type: 'null'
+          title: Wind Onshore Share
+        wind_offshore_share:
+          anyOf:
+          - items:
+              type: number
+            type: array
+          - type: 'null'
+          title: Wind Offshore Share
+        substitute:
+          type: boolean
+          title: Substitute
+        deprecated:
+          type: boolean
+          title: Deprecated
+      type: object
+      required:
+      - unix_seconds
+      - ren_share
+      - substitute
+      - deprecated
+      title: RenShareModel
+    TrafficModel:
+      properties:
+        unix_seconds:
+          items:
+            type: integer
+          type: array
+          title: Unix Seconds
+        share:
+          items:
+            anyOf:
+            - type: number
+            - type: 'null'
+          type: array
+          title: Share
+        signal:
+          items:
+            anyOf:
+            - type: integer
+            - type: 'null'
+          type: array
+          title: Signal
+          description: "\n    0: Red (low renewable share)\n    1: Yellow (average renewable share)\n    2: Green (high renewable share)\n    "
+        substitute:
+          type: boolean
+          title: Substitute
+        deprecated:
+          type: boolean
+          title: Deprecated
+      type: object
+      required:
+      - unix_seconds
+      - share
+      - substitute
+      - deprecated
+      title: TrafficModel
+    DailyAvgDict:
+      properties:
+        days:
+          items:
+            type: string
+          type: array
+          title: Days
+          description: List of days in the format dd.mm.yyyy
+        data:
+          items:
+            anyOf:
+            - type: number
+            - type: 'null'
+          type: array
+          title: Data
+          description: List of average daily values
+        deprecated:
+          type: boolean
+          title: Deprecated
+      type: object
+      required:
+      - days
+      - data
+      - deprecated
+      title: DailyAvgDict
