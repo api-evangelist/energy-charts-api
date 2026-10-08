@@ -111,6 +111,12 @@ apis:
   - type: Documentation
     url: https://api.energy-charts.info/
 common:
+  - type: Plans
+    url: plans/energy-charts-api-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/energy-charts-api-rate-limits.yml
+  - type: FinOps
+    url: finops/energy-charts-api-finops.yml
   - type: AgenticAccess
     url: agentic-access/energy-charts-api-agentic-access.yml
   - type: DomainSecurity
