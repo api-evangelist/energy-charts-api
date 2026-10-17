@@ -400,6 +400,27 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     FrequencyModel:
       properties:
         unix_seconds:
@@ -424,6 +445,74 @@ components:
       - data
       - deprecated
       title: FrequencyModel
+    ProductionModel:
+      properties:
+        unix_seconds:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Unix Seconds
+        production_types:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/NamedData'
+            type: array
+          - type: 'null'
+          title: Production Types
+        deprecated:
+          type: boolean
+          title: Deprecated
+      type: object
+      required:
+      - deprecated
+      title: ProductionModel
+    InstalledModel:
+      properties:
+        time:
+          items:
+            type: string
+          type: array
+          title: Time
+        production_types:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/NamedData'
+            type: array
+          - type: 'null'
+          title: Production Types
+        last_update:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Last Update
+        deprecated:
+          type: boolean
+          title: Deprecated
+      type: object
+      required:
+      - time
+      - last_update
+      - deprecated
+      title: InstalledModel
+    NamedData:
+      properties:
+        name:
+          type: string
+          title: Name
+        data:
+          items:
+            anyOf:
+            - type: number
+            - type: 'null'
+          type: array
+          title: Data
+      type: object
+      required:
+      - name
+      - data
+      title: NamedData
     PublicPowerForecastModel:
       properties:
         unix_seconds:
@@ -455,55 +544,6 @@ components:
       - forecast_type
       - deprecated
       title: PublicPowerForecastModel
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    InstalledModel:
-      properties:
-        time:
-          items:
-            type: string
-          type: array
-          title: Time
-        production_types:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/NamedData'
-            type: array
-          - type: 'null'
-          title: Production Types
-        last_update:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Last Update
-        deprecated:
-          type: boolean
-          title: Deprecated
-      type: object
-      required:
-      - time
-      - last_update
-      - deprecated
-      title: InstalledModel
     HTTPValidationError:
       properties:
         detail:
@@ -513,43 +553,3 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    ProductionModel:
-      properties:
-        unix_seconds:
-          anyOf:
-          - items:
-              type: integer
-            type: array
-          - type: 'null'
-          title: Unix Seconds
-        production_types:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/NamedData'
-            type: array
-          - type: 'null'
-          title: Production Types
-        deprecated:
-          type: boolean
-          title: Deprecated
-      type: object
-      required:
-      - deprecated
-      title: ProductionModel
-    NamedData:
-      properties:
-        name:
-          type: string
-          title: Name
-        data:
-          items:
-            anyOf:
-            - type: number
-            - type: 'null'
-          type: array
-          title: Data
-      type: object
-      required:
-      - name
-      - data
-      title: NamedData

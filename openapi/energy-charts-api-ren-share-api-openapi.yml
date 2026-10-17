@@ -544,75 +544,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ShareModel:
-      properties:
-        unix_seconds:
-          anyOf:
-          - items:
-              type: integer
-            type: array
-          - type: 'null'
-          title: Unix Seconds
-        data:
-          anyOf:
-          - items:
-              anyOf:
-              - type: number
-              - type: 'null'
-            type: array
-          - type: 'null'
-          title: Data
-        forecast:
-          anyOf:
-          - items:
-              anyOf:
-              - type: number
-              - type: 'null'
-            type: array
-          - type: 'null'
-          title: Forecast
-        deprecated:
-          type: boolean
-          title: Deprecated
-      type: object
-      required:
-      - deprecated
-      title: ShareModel
-    TrafficModel:
-      properties:
-        unix_seconds:
-          items:
-            type: integer
-          type: array
-          title: Unix Seconds
-        share:
-          items:
-            anyOf:
-            - type: number
-            - type: 'null'
-          type: array
-          title: Share
-        signal:
-          items:
-            anyOf:
-            - type: integer
-            - type: 'null'
-          type: array
-          title: Signal
-          description: "\n    0: Red (low renewable share)\n    1: Yellow (average renewable share)\n    2: Green (high renewable share)\n    "
-        substitute:
-          type: boolean
-          title: Substitute
-        deprecated:
-          type: boolean
-          title: Deprecated
-      type: object
-      required:
-      - unix_seconds
-      - share
-      - substitute
-      - deprecated
-      title: TrafficModel
     ValidationError:
       properties:
         loc:
@@ -634,15 +565,6 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     DailyAvgDict:
       properties:
         days:
@@ -716,3 +638,81 @@ components:
       - substitute
       - deprecated
       title: RenShareModel
+    ShareModel:
+      properties:
+        unix_seconds:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Unix Seconds
+        data:
+          anyOf:
+          - items:
+              anyOf:
+              - type: number
+              - type: 'null'
+            type: array
+          - type: 'null'
+          title: Data
+        forecast:
+          anyOf:
+          - items:
+              anyOf:
+              - type: number
+              - type: 'null'
+            type: array
+          - type: 'null'
+          title: Forecast
+        deprecated:
+          type: boolean
+          title: Deprecated
+      type: object
+      required:
+      - deprecated
+      title: ShareModel
+    TrafficModel:
+      properties:
+        unix_seconds:
+          items:
+            type: integer
+          type: array
+          title: Unix Seconds
+        share:
+          items:
+            anyOf:
+            - type: number
+            - type: 'null'
+          type: array
+          title: Share
+        signal:
+          items:
+            anyOf:
+            - type: integer
+            - type: 'null'
+          type: array
+          title: Signal
+          description: "\n    0: Red (low renewable share)\n    1: Yellow (average renewable share)\n    2: Green (high renewable share)\n    "
+        substitute:
+          type: boolean
+          title: Substitute
+        deprecated:
+          type: boolean
+          title: Deprecated
+      type: object
+      required:
+      - unix_seconds
+      - share
+      - substitute
+      - deprecated
+      title: TrafficModel
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
