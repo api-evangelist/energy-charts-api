@@ -110,6 +110,56 @@ apis:
     url: openapi/energy-charts-api-ren-share-api-openapi.yml
   - type: Documentation
     url: https://api.energy-charts.info/
+- aid: energy-charts-api:energy-charts-api-energy-charts-api-api
+  name: Energy Charts API Energy Charts API
+  description: The Energy Charts API API from Energy Charts API — 1 operation(s) for energy charts api.
+  humanURL: https://api.energy-charts.info/
+  baseURL: https://api.energy-charts.info
+  tags:
+  - Energy Charts API
+  properties:
+  - type: OpenAPI
+    url: openapi/energy-charts-api-energy-charts-api-api-openapi.yml
+- aid: energy-charts-api:energy-charts-api-import-export-v2-api
+  name: Energy Charts API import_export v2 API
+  description: Import/export values in the uniform, machine-readable v2 envelope
+  humanURL: https://api.energy-charts.info/
+  baseURL: https://api.energy-charts.info
+  tags:
+  - import_export v2
+  properties:
+  - type: OpenAPI
+    url: openapi/energy-charts-api-import-export-v2-api-openapi.yml
+- aid: energy-charts-api:energy-charts-api-power-v2-api
+  name: Energy Charts API power v2 API
+  description: Power values in the uniform, machine-readable v2 envelope
+  humanURL: https://api.energy-charts.info/
+  baseURL: https://api.energy-charts.info
+  tags:
+  - power v2
+  properties:
+  - type: OpenAPI
+    url: openapi/energy-charts-api-power-v2-api-openapi.yml
+- aid: energy-charts-api:energy-charts-api-prices-v2-api
+  name: Energy Charts API prices v2 API
+  description: Price values in the uniform, machine-readable v2 envelope
+  humanURL: https://api.energy-charts.info/
+  baseURL: https://api.energy-charts.info
+  tags:
+  - prices v2
+  properties:
+  - type: OpenAPI
+    url: openapi/energy-charts-api-prices-v2-api-openapi.yml
+- aid: energy-charts-api:energy-charts-api-ren-share-v2-api
+  name: Energy Charts API ren_share v2 API
+  description: Renewable shares in the uniform, machine-readable v2 envelope
+  humanURL: https://api.energy-charts.info/
+  baseURL: https://api.energy-charts.info
+  tags:
+  - ren_share v2
+  properties:
+  - type: OpenAPI
+    url: openapi/energy-charts-api-ren-share-v2-api-openapi.yml
 common:
   - type: Plans
     url: plans/energy-charts-api-plans-pricing.yml

@@ -1,0 +1,219 @@
+openapi: 3.2.0
+info:
+  title: Energy-Charts Energy Charts API
+  description: 'Timestamp Format Options
+
+
+    When specifying timestamps, you can choose from the following three formats:
+
+
+    ISO 8601 Format:
+
+
+    This format includes the full date and time, with an optional timezone indicator. Examples:
+
+
+    2026-01-01T17:00Z (UTC time)
+
+
+    2026-01-01T18:00+01:00 (Local time offset by +01:00)
+
+
+    Daily Format:
+
+
+    This format specifies only the date. The start time is assumed to be at 00:00 on the specified date in the local timezone of the specified country or bidding zone (bzn). The end timestamp is interpreted as the last minute of the specified day in the same local timezone. Example:
+
+
+    2026-01-01 (Starts at 00:00 and ends at 23:59 on January 1, 2026, local time)
+
+
+    UNIX Timestamp:
+
+
+    This format specifies the time as the number of seconds since the Unix Epoch (January 1st, 1970, at 00:00 UTC). Example:
+
+
+    1767222000
+
+
+    Default Behavior for Timestamps
+
+
+    If an end timestamp is not explicitly provided, it is assumed to be the same as the start timestamp. For daily formats, this means that one full day will be returned. If also no start timestamp is provided, the current day in the local timezone is used. Timestamp Semantics in Responses
+
+
+    All timestamps returned by the API mark the beginning of the period the value refers to. Single exception: /installed_power and /v2/installed_power, where the timestamp labels the reporting year or month and the value represents the installed power at the end of that period (or, with installation_decommission=true, the net change during the period). Rate Limiting
+
+
+    Requests are limited per client IP and per endpoint (token bucket, so short bursts are allowed). The default is 2 requests per minute with a burst of 4; /signal allows 20 per minute (burst 40), /price 2 per minute (burst 2), and every /v2 endpoint inherits the limit of its v1 counterpart. In addition, the limits are adjusted dynamically to the current server load, so the effective limit can be lower during peak times. Exceeding a limit returns HTTP 429 with a Retry-After header giving the number of seconds to wait. Clients should honour that header instead of assuming fixed limits, and cache responses on their side. For higher limits (commercial access) please contact leonhard.gandhi@ise.fraunhofer.de. Discontinuation of endpoints
+
+
+    Endpoint discontinuations will be preceded by an announcement at least six months in advance, indicated by setting the "deprecated" status to true. Data License
+
+
+    Unless stated otherwise, the data provided by the Energy-Charts API is licensed under the CC BY 4.0 license. Proper attribution to Energy-Charts.info as the source is required. New in release v2.0 (2026-07-20)
+
+
+    New machine-readable /v2/...'
+  termsOfService: https://energy-charts.info/data-protection.html
+  contact:
+    name: Contact
+    url: https://energy-charts.info/contact.html
+  license:
+    name: Publishing notes
+    url: https://energy-charts.info/publishing-notes.html
+  version: '2.0'
+tags:
+- name: Energy Charts API
+paths:
+  /v2:
+    get:
+      tags:
+      - Energy Charts API
+      summary: Machine-readable catalog of all v2 endpoints
+      description: 'Self-describing directory of the v2 API.
+
+
+        Lists every v2 endpoint with its parameters, accepted values and
+
+        defaults, derived from the live OpenAPI schema. Intended as the single
+
+        entry point for AI agents and other automated clients.'
+      operationId: v2_catalog_v2_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogResponseV2'
+components:
+  schemas:
+    ParameterDescriptorV2:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Query parameter name.
+        type:
+          type: string
+          title: Type
+          description: JSON type of the parameter (string, integer, boolean).
+        required:
+          type: boolean
+          title: Required
+          description: Whether the parameter must be provided.
+        default:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Default
+          description: Default value used when the parameter is omitted.
+        allowed_values:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Allowed Values
+          description: Closed list of accepted values, if the parameter is an enum.
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Free-text explanation of the parameter.
+      additionalProperties: false
+      type: object
+      required:
+      - name
+      - type
+      - required
+      title: ParameterDescriptorV2
+      description: Describes one query parameter of a catalog entry.
+    CatalogResponseV2:
+      properties:
+        schema_version:
+          type: string
+          title: Schema Version
+          description: Version of the v2 response schema.
+        title:
+          type: string
+          title: Title
+          description: API title.
+        description:
+          type: string
+          title: Description
+          description: What this API provides and how to read responses.
+        openapi_url:
+          type: string
+          title: Openapi Url
+          description: Path of the full OpenAPI 3 schema.
+        response_envelope:
+          type: string
+          title: Response Envelope
+          description: Name of the uniform response model every data endpoint returns.
+        endpoints:
+          items:
+            $ref: '#/components/schemas/CatalogEntryV2'
+          type: array
+          title: Endpoints
+          description: All available v2 endpoints.
+      additionalProperties: false
+      type: object
+      required:
+      - schema_version
+      - title
+      - description
+      - openapi_url
+      - response_envelope
+      - endpoints
+      title: CatalogResponseV2
+      description: Self-describing directory of the v2 API, returned by ``GET /v2``.
+    CatalogEntryV2:
+      properties:
+        path:
+          type: string
+          title: Path
+          description: Absolute request path.
+          examples:
+          - /v2/public_power
+        method:
+          type: string
+          title: Method
+          description: HTTP method.
+          examples:
+          - GET
+        summary:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Summary
+          description: One-line summary.
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Full description.
+        tag:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tag
+          description: OpenAPI tag group.
+        parameters:
+          items:
+            $ref: '#/components/schemas/ParameterDescriptorV2'
+          type: array
+          title: Parameters
+          description: Query parameters accepted by this endpoint.
+      additionalProperties: false
+      type: object
+      required:
+      - path
+      - method
+      - parameters
+      title: CatalogEntryV2
+      description: Describes one v2 endpoint.

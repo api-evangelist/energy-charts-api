@@ -1,0 +1,536 @@
+openapi: 3.2.0
+info:
+  title: Energy-Charts prices v2 API
+  description: 'Timestamp Format Options
+
+
+    When specifying timestamps, you can choose from the following three formats:
+
+
+    ISO 8601 Format:
+
+
+    This format includes the full date and time, with an optional timezone indicator. Examples:
+
+
+    2026-01-01T17:00Z (UTC time)
+
+
+    2026-01-01T18:00+01:00 (Local time offset by +01:00)
+
+
+    Daily Format:
+
+
+    This format specifies only the date. The start time is assumed to be at 00:00 on the specified date in the local timezone of the specified country or bidding zone (bzn). The end timestamp is interpreted as the last minute of the specified day in the same local timezone. Example:
+
+
+    2026-01-01 (Starts at 00:00 and ends at 23:59 on January 1, 2026, local time)
+
+
+    UNIX Timestamp:
+
+
+    This format specifies the time as the number of seconds since the Unix Epoch (January 1st, 1970, at 00:00 UTC). Example:
+
+
+    1767222000
+
+
+    Default Behavior for Timestamps
+
+
+    If an end timestamp is not explicitly provided, it is assumed to be the same as the start timestamp. For daily formats, this means that one full day will be returned. If also no start timestamp is provided, the current day in the local timezone is used. Timestamp Semantics in Responses
+
+
+    All timestamps returned by the API mark the beginning of the period the value refers to. Single exception: /installed_power and /v2/installed_power, where the timestamp labels the reporting year or month and the value represents the installed power at the end of that period (or, with installation_decommission=true, the net change during the period). Rate Limiting
+
+
+    Requests are limited per client IP and per endpoint (token bucket, so short bursts are allowed). The default is 2 requests per minute with a burst of 4; /signal allows 20 per minute (burst 40), /price 2 per minute (burst 2), and every /v2 endpoint inherits the limit of its v1 counterpart. In addition, the limits are adjusted dynamically to the current server load, so the effective limit can be lower during peak times. Exceeding a limit returns HTTP 429 with a Retry-After header giving the number of seconds to wait. Clients should honour that header instead of assuming fixed limits, and cache responses on their side. For higher limits (commercial access) please contact leonhard.gandhi@ise.fraunhofer.de. Discontinuation of endpoints
+
+
+    Endpoint discontinuations will be preceded by an announcement at least six months in advance, indicated by setting the "deprecated" status to true. Data License
+
+
+    Unless stated otherwise, the data provided by the Energy-Charts API is licensed under the CC BY 4.0 license. Proper attribution to Energy-Charts.info as the source is required. New in release v2.0 (2026-07-20)
+
+
+    New machine-readable /v2/...'
+  termsOfService: https://energy-charts.info/data-protection.html
+  contact:
+    name: Contact
+    url: https://energy-charts.info/contact.html
+  license:
+    name: Publishing notes
+    url: https://energy-charts.info/publishing-notes.html
+  version: '2.0'
+tags:
+- name: prices v2
+  description: Price values in the uniform, machine-readable v2 envelope
+paths:
+  /v2/price:
+    get:
+      tags:
+      - prices v2
+      summary: Day-ahead spot market price
+      description: 'Day-ahead spot market price for a bidding zone in EUR/MWh. The `license` field states the license of the returned data; for several zones the data is CC BY 4.0 from Bundesnetzagentur | SMARD.de, for all other zones it is restricted to private and internal use. Accepted formats: ISO 8601 (`2026-01-01T17:00Z`), day (`2026-01-01`, interpreted in the local timezone) or unix seconds (`1767222000`). Empty start defaults to today; empty end defaults to start.'
+      operationId: handler_v2_price_get
+      parameters:
+      - name: bzn
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/BiddingZoneV2'
+          description: Bidding zone
+          default: DE-LU
+        description: Bidding zone
+      - name: start
+        in: query
+        required: false
+        schema:
+          type: string
+          description: 'Accepted formats: ISO 8601 (`2026-01-01T17:00Z`), day (`2026-01-01`, interpreted in the local timezone) or unix seconds (`1767222000`). Empty start defaults to today; empty end defaults to start.'
+          default: ''
+          title: Start
+        description: 'Accepted formats: ISO 8601 (`2026-01-01T17:00Z`), day (`2026-01-01`, interpreted in the local timezone) or unix seconds (`1767222000`). Empty start defaults to today; empty end defaults to start.'
+      - name: end
+        in: query
+        required: false
+        schema:
+          type: string
+          description: 'Accepted formats: ISO 8601 (`2026-01-01T17:00Z`), day (`2026-01-01`, interpreted in the local timezone) or unix seconds (`1767222000`). Empty start defaults to today; empty end defaults to start.'
+          default: ''
+          title: End
+        description: 'Accepted formats: ISO 8601 (`2026-01-01T17:00Z`), day (`2026-01-01`, interpreted in the local timezone) or unix seconds (`1767222000`). Empty start defaults to today; empty end defaults to start.'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeSeriesResponseV2'
+        '400':
+          description: Invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseV2'
+        '404':
+          description: No data available
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseV2'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v2/price_current:
+    get:
+      tags:
+      - prices v2
+      summary: Day-ahead spot market price of the current interval
+      description: Day-ahead spot market price of the interval that contains the current time, as a single-record envelope. `attributes.valid_until` states when the returned price expires (start of the next interval); re-fetch after that time. Returns 404 if no price is available for the current interval. License handling as for /v2/price.
+      operationId: handler_v2_price_current_get
+      parameters:
+      - name: bzn
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/BiddingZoneV2'
+          description: Bidding zone
+          default: DE-LU
+        description: Bidding zone
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeSeriesResponseV2'
+        '400':
+          description: Invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseV2'
+        '404':
+          description: No data available
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseV2'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v2/price_next_day:
+    get:
+      tags:
+      - prices v2
+      summary: Day-ahead spot market price for the next day
+      description: Day-ahead spot market prices for the next local day of the bidding zone (the day after today), covering the full day. `attributes.delivery_date` states the day the prices refer to. Returns 404 while tomorrow's auction results are not yet published (results typically become available in the early afternoon CET of the current day). License handling as for /v2/price.
+      operationId: handler_v2_price_next_day_get
+      parameters:
+      - name: bzn
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/BiddingZoneV2'
+          description: Bidding zone
+          default: DE-LU
+        description: Bidding zone
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeSeriesResponseV2'
+        '400':
+          description: Invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseV2'
+        '404':
+          description: No data available
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseV2'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    BiddingZoneV2:
+      type: string
+      enum:
+      - DE-LU
+      - AT
+      - BE
+      - BG
+      - CH
+      - CZ
+      - DK1
+      - DK2
+      - EE
+      - ES
+      - FI
+      - FR
+      - GR
+      - HR
+      - HU
+      - IT-Calabria
+      - IT-Centre-North
+      - IT-Centre-South
+      - IT-North
+      - IT-SACOAC
+      - IT-SACODC
+      - IT-Sardinia
+      - IT-Sicily
+      - IT-South
+      - LT
+      - LV
+      - ME
+      - NL
+      - NO1
+      - NO2
+      - NO2NSL
+      - NO3
+      - NO4
+      - NO5
+      - PL
+      - PT
+      - RO
+      - RS
+      - SE1
+      - SE2
+      - SE3
+      - SE4
+      - SI
+      - SK
+      - DE-AT-LU
+      - IE(SEM)
+      - UA-IPS
+      - UA-BEI
+      - IT-Brindisi
+      - IT-Foggia
+      - IT-GR
+      - IT-North-AT
+      - IT-North-CH
+      - IT-North-SI
+      - IT-North-FR
+      - IT-Priolo
+      - IT-Rossano
+      title: BiddingZoneV2
+      description: European day-ahead market bidding zone.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ErrorResponseV2:
+      properties:
+        detail:
+          type: string
+          title: Detail
+          description: Human readable error description.
+      type: object
+      required:
+      - detail
+      title: ErrorResponseV2
+      description: Standard error body (FastAPI default shape, documented explicitly).
+    TimeSeriesResponseV2:
+      properties:
+        schema_version:
+          type: string
+          title: Schema Version
+          description: Version of this response schema.
+          examples:
+          - '2.0'
+        endpoint:
+          type: string
+          title: Endpoint
+          description: Name of the endpoint that produced this response.
+          examples:
+          - public_power
+        country:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Country
+          description: Country code the data refers to (lowercase), if applicable.
+          examples:
+          - de
+        bidding_zone:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Bidding Zone
+          description: Bidding zone the data refers to, if applicable.
+          examples:
+          - DE-LU
+        timezone:
+          type: string
+          title: Timezone
+          description: IANA timezone in which all timestamps of this response are expressed.
+          examples:
+          - Europe/Berlin
+        resolution:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Resolution
+          description: Temporal resolution as ISO 8601 duration (e.g. PT15M, PT1H, P1D, P1M, P1Y). `null` if the time axis is irregular.
+          examples:
+          - PT15M
+        interval_minutes:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Interval Minutes
+          description: Temporal resolution in minutes. `null` if irregular or if the step is calendar based (months / years).
+          examples:
+          - 15
+        unit:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Unit
+          description: Default unit of all series. Individual series may override it via `series[*].unit`.
+          examples:
+          - MW
+        generated_at:
+          type: string
+          title: Generated At
+          description: ISO 8601 time at which this response body was generated. Responses may be served from a short-lived cache; this field always reflects the true generation time.
+          examples:
+          - '2026-07-20T19:45:00+02:00'
+        available_from:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Available From
+          description: Timestamp of the first record that contains at least one non-null value. `null` if the response is empty.
+        available_until:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Available Until
+          description: Timestamp of the last record that contains at least one non-null value (data availability at generation time). `null` if the response is empty.
+        series:
+          items:
+            $ref: '#/components/schemas/SeriesDescriptorV2'
+          type: array
+          title: Series
+          description: Descriptors of all series present in `data[*].values`.
+        data:
+          items:
+            $ref: '#/components/schemas/DataPointV2'
+          type: array
+          title: Data
+          description: Chronologically ordered records.
+        attributes:
+          additionalProperties:
+            type: string
+          type: object
+          title: Attributes
+          description: Endpoint specific metadata (e.g. forecast_type).
+        license:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: License
+          description: License of the data in this response.
+        deprecated:
+          type: boolean
+          title: Deprecated
+          description: True if this endpoint is scheduled for discontinuation.
+      additionalProperties: false
+      type: object
+      required:
+      - schema_version
+      - endpoint
+      - timezone
+      - generated_at
+      - series
+      - data
+      - deprecated
+      title: TimeSeriesResponseV2
+      description: Uniform, self-describing time-series envelope of all v2 endpoints.
+      example:
+        attributes: {}
+        available_from: '2026-07-20T00:00:00+02:00'
+        available_until: '2026-07-20T19:30:00+02:00'
+        country: de
+        data:
+        - timestamp: '2026-07-20T12:00:00+02:00'
+          values:
+            renewable_share_of_load: 61.4
+            solar: 42135.7
+            wind_onshore: 18421.3
+        - timestamp: '2026-07-20T12:15:00+02:00'
+          values:
+            renewable_share_of_load: 62.0
+            solar: 42891.2
+            wind_onshore: 18154.8
+        deprecated: false
+        endpoint: public_power
+        generated_at: '2026-07-20T19:45:00+02:00'
+        interval_minutes: 15
+        license: 'CC BY 4.0 (creativecommons.org/licenses/by/4.0), attribution: energy-charts.info'
+        resolution: PT15M
+        schema_version: '2.0'
+        series:
+        - id: solar
+          name: Solar
+        - id: wind_onshore
+          name: Wind onshore
+        - id: renewable_share_of_load
+          name: Renewable share of load
+          unit: '%'
+        timezone: Europe/Berlin
+        unit: MW
+    SeriesDescriptorV2:
+      properties:
+        id:
+          type: string
+          title: Id
+          description: Stable snake_case identifier. Key of this series inside every `data[*].values` object.
+          examples:
+          - wind_onshore
+        name:
+          type: string
+          title: Name
+          description: Human readable display name of the series.
+          examples:
+          - Wind onshore
+        unit:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Unit
+          description: Unit of this series if it differs from the envelope-level `unit`. Omitted when the envelope-level unit applies.
+          examples:
+          - '%'
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: Free-text explanation of the series semantics. Omitted when there is nothing to explain beyond the name.
+      additionalProperties: false
+      type: object
+      required:
+      - id
+      - name
+      title: SeriesDescriptorV2
+      description: 'Describes one series contained in ``data[*].values``.
+
+
+        ``unit`` and ``description`` are omitted from the JSON output when unset,
+
+        so a plain entry is just ``{"id": ..., "name": ...}`` and the
+
+        envelope-level ``unit`` applies.'
+    DataPointV2:
+      properties:
+        timestamp:
+          type: string
+          title: Timestamp
+          description: 'ISO 8601 timestamp with UTC offset, expressed in the envelope `timezone`. Marks the START of the period the values refer to. Single exception: `installed_power`, where the timestamp labels the reporting year or month and values represent the state at the END of that period (or the net change during it, with installation_decommission=true).'
+          examples:
+          - '2026-07-20T12:15:00+02:00'
+        values:
+          additionalProperties:
+            anyOf:
+            - type: number
+            - type: integer
+            - type: 'null'
+          type: object
+          title: Values
+          description: Mapping of series id -> value. `null` means the value is not (yet) available for this timestamp.
+          examples:
+          - solar: 42135.7
+            wind_onshore: 18421.3
+      additionalProperties: false
+      type: object
+      required:
+      - timestamp
+      - values
+      title: DataPointV2
+      description: One timestamped record holding the value of every series.

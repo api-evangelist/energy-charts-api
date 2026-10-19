@@ -1,0 +1,718 @@
+openapi: 3.2.0
+info:
+  title: Energy-Charts Ren Share API
+  description: 'Timestamp Format Options
+
+
+    When specifying timestamps, you can choose from the following three formats:
+
+
+    ISO 8601 Format:
+
+
+    This format includes the full date and time, with an optional timezone indicator.'
+  termsOfService: https://energy-charts.info/data-protection.html
+  contact:
+    name: Contact
+    url: https://energy-charts.info/contact.html
+  license:
+    name: Publishing notes
+    url: https://energy-charts.info/publishing-notes.html
+  version: '1.5'
+tags:
+- name: ren_share
+  description: Renewable shares
+paths:
+  /signal:
+    get:
+      tags:
+      - ren_share
+      summary: Traffic Signal
+      description: 'Electricity traffic signal
+
+
+        Returns the renewable share of load in percent from today until prediction is currently available and the corresponding traffic light.
+
+
+        The traffic light "signal" is indicated by the following numbers:
+
+
+        -1: Red (grid congestion),
+
+        0: Red (low renewable share),
+
+        1: Yellow (average renewable share),
+
+        2: Green (high renewable share)
+
+
+        If no data is available from the primary data providers, a best guess is made from historic data. This is indicated by "substitute" set to True.
+
+
+        "postal_code" is an optional input parameter, which will consider the local grid state (e.g. transmission line overload) in future implementations.
+
+
+        Response schema:
+
+
+        ```json
+
+        {
+
+        "unix_seconds": [int],
+
+        "share": [float],
+
+        "signal": [int],
+
+        "substitute": bool,
+
+        "deprecated": bool
+
+        }
+
+        ```'
+      operationId: traffic_signal_signal_get
+      parameters:
+      - name: country
+        in: query
+        required: false
+        schema:
+          type: string
+          default: de
+          title: Country
+      - name: postal_code
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Postal Code
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrafficModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /ren_share_forecast:
+    get:
+      tags:
+      - ren_share
+      summary: Renewable Share Forecast
+      description: 'Renewable share forecast
+
+
+        Returns the renewable share of load forecast in percent from today until prediction is currently available. It also includes the forecast for solar, wind on- and offshore share of load.
+
+
+        If no data is available from the primary data providers, a best guess is made from historic data. This is indicated by "substitute" set to True.
+
+
+        Response schema:
+
+
+        ```json
+
+        {
+
+        "unix_seconds": [int],
+
+        "ren_share": [float],
+
+        "solar_share": [float],
+
+        "wind_onshore_share": [float],
+
+        "wind_offshore_share": [float],
+
+        "substitute": bool,
+
+        "deprecated": bool
+
+        }
+
+        ```'
+      operationId: renewable_share_forecast_ren_share_forecast_get
+      parameters:
+      - name: country
+        in: query
+        required: false
+        schema:
+          type: string
+          default: de
+          title: Country
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RenShareModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /ren_share_daily_avg:
+    get:
+      tags:
+      - ren_share
+      summary: Ren Share Daily Avg
+      description: 'Average daily renewable share of load
+
+
+        Returns the average daily renewable share of load of the last 365 days (year = -1) or for a given year if provided.
+
+
+        Response schema:
+
+
+        ```json
+
+
+        {
+
+        "days": ["dd.mm.yyyy"],
+
+        "data": [float],
+
+        "deprecated": bool
+
+        }
+
+
+        ```'
+      operationId: ren_share_daily_avg_ren_share_daily_avg_get
+      parameters:
+      - name: country
+        in: query
+        required: false
+        schema:
+          type: string
+          default: de
+          title: Country
+      - name: year
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: -1
+          title: Year
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailyAvgDict'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /solar_share:
+    get:
+      tags:
+      - ren_share
+      summary: Solar Share
+      description: 'Solar Share of Load
+
+
+        Returns the solar share of load from today until prediction is currently available
+
+
+        Response schema:
+
+
+        ```json
+
+        {
+
+        "unix_seconds": list[int],
+
+        "data": list[float],
+
+        "forecast": list[float],
+
+        "deprecated": bool
+
+        }
+
+        ```'
+      operationId: solar_share_solar_share_get
+      parameters:
+      - name: country
+        in: query
+        required: false
+        schema:
+          type: string
+          default: de
+          title: Country
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShareModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /solar_share_daily_avg:
+    get:
+      tags:
+      - ren_share
+      summary: Solar Share Daily Avg
+      description: 'Average daily solar share of load
+
+
+        Returns the average daily solar share of load of the last 365 days (year = -1) or for a given year if provided.
+
+
+        Response schema:
+
+
+        ```json
+
+        {
+
+        "days": ["dd.mm.yyyy"],
+
+        "data": [float],
+
+        "deprecated": bool
+
+        }
+
+        ```'
+      operationId: solar_share_daily_avg_solar_share_daily_avg_get
+      parameters:
+      - name: country
+        in: query
+        required: false
+        schema:
+          type: string
+          default: de
+          title: Country
+      - name: year
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: -1
+          title: Year
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailyAvgDict'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /wind_onshore_share:
+    get:
+      tags:
+      - ren_share
+      summary: Wind Onshore Share
+      description: 'Wind Onshore Share of Load
+
+
+        Returns the wind onshore share of load from today until prediction is currently available
+
+
+        Response schema:
+
+
+        ```json
+
+        {
+
+        "unix_seconds": list[int],
+
+        "data": list[float],
+
+        "forecast": list[float],
+
+        "deprecated": bool
+
+        }
+
+        ```'
+      operationId: wind_onshore_share_wind_onshore_share_get
+      parameters:
+      - name: country
+        in: query
+        required: false
+        schema:
+          type: string
+          default: de
+          title: Country
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShareModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /wind_onshore_share_daily_avg:
+    get:
+      tags:
+      - ren_share
+      summary: Wind Onshore Share Daily Avg
+      description: 'Average daily wind onshore share of load
+
+
+        Returns the average daily wind onshore share of load of the last 365 days
+
+
+        Response schema:
+
+
+        ```json
+
+        {
+
+        "days": ["dd.mm.yyyy"],
+
+        "data": [float],
+
+        "deprecated": bool
+
+        }
+
+        ```'
+      operationId: wind_onshore_share_daily_avg_wind_onshore_share_daily_avg_get
+      parameters:
+      - name: country
+        in: query
+        required: false
+        schema:
+          type: string
+          default: de
+          title: Country
+      - name: year
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: -1
+          title: Year
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailyAvgDict'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /wind_offshore_share:
+    get:
+      tags:
+      - ren_share
+      summary: Wind Offshore Share
+      description: 'Wind Offshore Share of Load
+
+
+        Returns the wind offshore share of load from today until prediction is currently available
+
+
+        Response schema:
+
+
+        ```json
+
+        {
+
+        "unix_seconds": list[int],
+
+        "data": list[float],
+
+        "forecast": list[float],
+
+        "deprecated": bool
+
+        }
+
+        ```'
+      operationId: wind_offshore_share_wind_offshore_share_get
+      parameters:
+      - name: country
+        in: query
+        required: false
+        schema:
+          type: string
+          default: de
+          title: Country
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShareModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /wind_offshore_share_daily_avg:
+    get:
+      tags:
+      - ren_share
+      summary: Wind Offshore Share Daily Avg
+      description: 'Average daily wind offshore share of load
+
+
+        Returns the average daily wind offshore share of load of the last 365 days
+
+
+        Response schema:
+
+
+        ```json
+
+
+        {
+
+        "days": ["dd.mm.yyyy"],
+
+        "data": [float],
+
+        "deprecated": bool
+
+        }
+
+
+        ```'
+      operationId: wind_offshore_share_daily_avg_wind_offshore_share_daily_avg_get
+      parameters:
+      - name: country
+        in: query
+        required: false
+        schema:
+          type: string
+          default: de
+          title: Country
+      - name: year
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: -1
+          title: Year
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailyAvgDict'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    DailyAvgDict:
+      properties:
+        days:
+          items:
+            type: string
+          type: array
+          title: Days
+          description: List of days in the format dd.mm.yyyy
+        data:
+          items:
+            anyOf:
+            - type: number
+            - type: 'null'
+          type: array
+          title: Data
+          description: List of average daily values
+        deprecated:
+          type: boolean
+          title: Deprecated
+      type: object
+      required:
+      - days
+      - data
+      - deprecated
+      title: DailyAvgDict
+    RenShareModel:
+      properties:
+        unix_seconds:
+          items:
+            type: integer
+          type: array
+          title: Unix Seconds
+        ren_share:
+          items:
+            anyOf:
+            - type: number
+            - type: 'null'
+          type: array
+          title: Ren Share
+        solar_share:
+          anyOf:
+          - items:
+              type: number
+            type: array
+          - type: 'null'
+          title: Solar Share
+        wind_onshore_share:
+          anyOf:
+          - items:
+              type: number
+            type: array
+          - type: 'null'
+          title: Wind Onshore Share
+        wind_offshore_share:
+          anyOf:
+          - items:
+              type: number
+            type: array
+          - type: 'null'
+          title: Wind Offshore Share
+        substitute:
+          type: boolean
+          title: Substitute
+        deprecated:
+          type: boolean
+          title: Deprecated
+      type: object
+      required:
+      - unix_seconds
+      - ren_share
+      - substitute
+      - deprecated
+      title: RenShareModel
+    ShareModel:
+      properties:
+        unix_seconds:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Unix Seconds
+        data:
+          anyOf:
+          - items:
+              anyOf:
+              - type: number
+              - type: 'null'
+            type: array
+          - type: 'null'
+          title: Data
+        forecast:
+          anyOf:
+          - items:
+              anyOf:
+              - type: number
+              - type: 'null'
+            type: array
+          - type: 'null'
+          title: Forecast
+        deprecated:
+          type: boolean
+          title: Deprecated
+      type: object
+      required:
+      - deprecated
+      title: ShareModel
+    TrafficModel:
+      properties:
+        unix_seconds:
+          items:
+            type: integer
+          type: array
+          title: Unix Seconds
+        share:
+          items:
+            anyOf:
+            - type: number
+            - type: 'null'
+          type: array
+          title: Share
+        signal:
+          items:
+            anyOf:
+            - type: integer
+            - type: 'null'
+          type: array
+          title: Signal
+          description: "\n    0: Red (low renewable share)\n    1: Yellow (average renewable share)\n    2: Green (high renewable share)\n    "
+        substitute:
+          type: boolean
+          title: Substitute
+        deprecated:
+          type: boolean
+          title: Deprecated
+      type: object
+      required:
+      - unix_seconds
+      - share
+      - substitute
+      - deprecated
+      title: TrafficModel
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

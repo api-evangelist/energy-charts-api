@@ -1,26 +1,28 @@
 {
   "provider": "energy-charts-api",
   "sources": [
-    "_original/energy-charts-api-openapi.yml"
+    "_original/energy-charts-api-openapi.json"
   ],
   "outputs": [
+    "energy-charts-api-energy-charts-api-api-openapi.yml",
     "energy-charts-api-import-export-api-openapi.yml",
+    "energy-charts-api-import-export-v2-api-openapi.yml",
     "energy-charts-api-power-api-openapi.yml",
+    "energy-charts-api-power-v2-api-openapi.yml",
     "energy-charts-api-prices-api-openapi.yml",
-    "energy-charts-api-ren-share-api-openapi.yml"
+    "energy-charts-api-prices-v2-api-openapi.yml",
+    "energy-charts-api-ren-share-api-openapi.yml",
+    "energy-charts-api-ren-share-v2-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
     "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
-    "energy-charts-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "apis.yml register: already-registered"
+    "energy-charts-api-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "energy-charts-api-openapi.json: tagged paths GET /v2 -> Energy Charts API",
+    "energy-charts-api-openapi.json: declared missing tag: Energy Charts API",
+    "apis.yml register: written (+5 apis, 9 total)"
   ],
-  "skipped": [
-    "energy-charts-api-import-export-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "energy-charts-api-power-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "energy-charts-api-prices-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "energy-charts-api-ren-share-api-openapi.yml: previously refined output, superseded by openapi/_original/"
-  ]
+  "skipped": []
 }

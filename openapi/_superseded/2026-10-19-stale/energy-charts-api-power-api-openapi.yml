@@ -1,0 +1,555 @@
+openapi: 3.2.0
+info:
+  title: Energy-Charts Power API
+  description: 'Timestamp Format Options
+
+
+    When specifying timestamps, you can choose from the following three formats:
+
+
+    ISO 8601 Format:
+
+
+    This format includes the full date and time, with an optional timezone indicator.'
+  termsOfService: https://energy-charts.info/data-protection.html
+  contact:
+    name: Contact
+    url: https://energy-charts.info/contact.html
+  license:
+    name: Publishing notes
+    url: https://energy-charts.info/publishing-notes.html
+  version: '1.5'
+tags:
+- name: Power
+  description: Query power values
+paths:
+  /public_power:
+    get:
+      tags:
+      - Power
+      summary: Public Power
+      description: 'Returns the public net electricity production for a given country for each production type. Subtype can be "solarlog" for Switzerland (ch).
+
+
+        Response schema:
+
+
+        ```json
+
+        {
+
+        "unix_seconds": list[int],
+
+        "production_types": [
+
+        {
+
+        "name": str,
+
+        "data": list[float]
+
+        }
+
+        ],
+
+        "deprecated": bool
+
+        }
+
+        ```'
+      operationId: public_power_public_power_get
+      parameters:
+      - name: country
+        in: query
+        required: false
+        schema:
+          type: string
+          default: de
+          title: Country
+      - name: start
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Start
+      - name: end
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: End
+      - name: subtype
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Subtype
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductionModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /public_power_forecast:
+    get:
+      tags:
+      - Power
+      summary: Public Power Forecast
+      description: 'Returns the forecast of the public net electricity production for a given country for each production type.
+
+
+        production_type: Can be solar, wind_onshore, wind_offshore or load
+
+
+        forecast_type: Can be current, intraday or day-ahead
+
+
+        If no dates are provided, values for today until forecast is available are returned. For load only the forecast type "day-ahead" is available.
+
+
+        Response schema:
+
+
+        ```json
+
+        {
+
+        "unix_seconds": list[int],
+
+        "forecast_values": list[float],
+
+        "production_type": str,
+
+        "forecast_type": str,
+
+        "deprecated": bool
+
+        }
+
+        ```'
+      operationId: public_power_forecast_public_power_forecast_get
+      parameters:
+      - name: country
+        in: query
+        required: false
+        schema:
+          type: string
+          default: de
+          title: Country
+      - name: production_type
+        in: query
+        required: false
+        schema:
+          type: string
+          default: solar
+          title: Production Type
+      - name: forecast_type
+        in: query
+        required: false
+        schema:
+          type: string
+          default: current
+          title: Forecast Type
+      - name: start
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Start
+      - name: end
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: End
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicPowerForecastModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /total_power:
+    get:
+      tags:
+      - Power
+      summary: Total Power
+      description: 'Returns the total net electricity production (including industrial self supply) for a given country for each production type.
+
+
+        Currently only available for Germany.
+
+
+        Response schema:
+
+
+        ```json
+
+        {
+
+        "unix_seconds": list[int],
+
+        "production_types": [
+
+        {
+
+        "name": str,
+
+        "data": list[float]
+
+        }
+
+        ],
+
+        "deprecated": bool
+
+        }
+
+        ```'
+      operationId: total_power_total_power_get
+      parameters:
+      - name: country
+        in: query
+        required: false
+        schema:
+          type: string
+          default: de
+          title: Country
+      - name: start
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Start
+      - name: end
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: End
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductionModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /installed_power:
+    get:
+      tags:
+      - Power
+      summary: Installed Power
+      description: 'Returns the installed power for a specified country in GW except for battery storage capacity, which is given in GWh. Monthly installation / decommission numbers are returned in MW instead of GW. "last_update" is the time of the last data update, expressed as seconds since the Unix epoch (UTC).
+
+
+        time_step: Time step can be either "yearly" or "monthly" (only for Germany)
+
+
+        installation_decommission: If true, the net installation / decommission numbers are returned instead of total installed power
+
+
+        Response schema:
+
+
+        ```json
+
+        {
+
+        "time": list[str],
+
+        "production_types": [
+
+        {
+
+        "name": str,
+
+        "data": list[float]
+
+        }
+
+        ],
+
+        "last_update": int,
+
+        "deprecated": bool
+
+        }
+
+        ```'
+      operationId: installed_power_installed_power_get
+      parameters:
+      - name: country
+        in: query
+        required: false
+        schema:
+          type: string
+          default: de
+          title: Country
+      - name: time_step
+        in: query
+        required: false
+        schema:
+          type: string
+          default: yearly
+          title: Time Step
+      - name: installation_decommission
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: Installation Decommission
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstalledModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /frequency:
+    get:
+      tags:
+      - Power
+      summary: Frequency
+      description: 'Returns the frequency measured at Fraunhofer ISE in Freiburg, Germany. Currently only the frequency in RG Continental Europe (formerly UCTE) is available. The data is available in 1 second timesteps from 1st of May 2022 onwards.
+
+
+        Response schema:
+
+
+        ```json
+
+        {
+
+        "unix_seconds": list[int],
+
+        "data": list[float],
+
+        "deprecated": bool
+
+        }
+
+        ```'
+      operationId: frequency_frequency_get
+      parameters:
+      - name: region
+        in: query
+        required: false
+        schema:
+          type: string
+          default: DE-Freiburg
+          title: Region
+      - name: start
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Start
+      - name: end
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: End
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FrequencyModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    FrequencyModel:
+      properties:
+        unix_seconds:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Unix Seconds
+        data:
+          items:
+            anyOf:
+            - type: number
+            - type: 'null'
+          type: array
+          title: Data
+        deprecated:
+          type: boolean
+          title: Deprecated
+      type: object
+      required:
+      - data
+      - deprecated
+      title: FrequencyModel
+    ProductionModel:
+      properties:
+        unix_seconds:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Unix Seconds
+        production_types:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/NamedData'
+            type: array
+          - type: 'null'
+          title: Production Types
+        deprecated:
+          type: boolean
+          title: Deprecated
+      type: object
+      required:
+      - deprecated
+      title: ProductionModel
+    InstalledModel:
+      properties:
+        time:
+          items:
+            type: string
+          type: array
+          title: Time
+        production_types:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/NamedData'
+            type: array
+          - type: 'null'
+          title: Production Types
+        last_update:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Last Update
+        deprecated:
+          type: boolean
+          title: Deprecated
+      type: object
+      required:
+      - time
+      - last_update
+      - deprecated
+      title: InstalledModel
+    NamedData:
+      properties:
+        name:
+          type: string
+          title: Name
+        data:
+          items:
+            anyOf:
+            - type: number
+            - type: 'null'
+          type: array
+          title: Data
+      type: object
+      required:
+      - name
+      - data
+      title: NamedData
+    PublicPowerForecastModel:
+      properties:
+        unix_seconds:
+          items:
+            type: integer
+          type: array
+          title: Unix Seconds
+        forecast_values:
+          items:
+            anyOf:
+            - type: number
+            - type: 'null'
+          type: array
+          title: Forecast Values
+        production_type:
+          type: string
+          title: Production Type
+        forecast_type:
+          type: string
+          title: Forecast Type
+        deprecated:
+          type: boolean
+          title: Deprecated
+      type: object
+      required:
+      - unix_seconds
+      - forecast_values
+      - production_type
+      - forecast_type
+      - deprecated
+      title: PublicPowerForecastModel
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

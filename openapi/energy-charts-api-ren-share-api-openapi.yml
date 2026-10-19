@@ -10,7 +10,52 @@ info:
     ISO 8601 Format:
 
 
-    This format includes the full date and time, with an optional timezone indicator.'
+    This format includes the full date and time, with an optional timezone indicator. Examples:
+
+
+    2026-01-01T17:00Z (UTC time)
+
+
+    2026-01-01T18:00+01:00 (Local time offset by +01:00)
+
+
+    Daily Format:
+
+
+    This format specifies only the date. The start time is assumed to be at 00:00 on the specified date in the local timezone of the specified country or bidding zone (bzn). The end timestamp is interpreted as the last minute of the specified day in the same local timezone. Example:
+
+
+    2026-01-01 (Starts at 00:00 and ends at 23:59 on January 1, 2026, local time)
+
+
+    UNIX Timestamp:
+
+
+    This format specifies the time as the number of seconds since the Unix Epoch (January 1st, 1970, at 00:00 UTC). Example:
+
+
+    1767222000
+
+
+    Default Behavior for Timestamps
+
+
+    If an end timestamp is not explicitly provided, it is assumed to be the same as the start timestamp. For daily formats, this means that one full day will be returned. If also no start timestamp is provided, the current day in the local timezone is used. Timestamp Semantics in Responses
+
+
+    All timestamps returned by the API mark the beginning of the period the value refers to. Single exception: /installed_power and /v2/installed_power, where the timestamp labels the reporting year or month and the value represents the installed power at the end of that period (or, with installation_decommission=true, the net change during the period). Rate Limiting
+
+
+    Requests are limited per client IP and per endpoint (token bucket, so short bursts are allowed). The default is 2 requests per minute with a burst of 4; /signal allows 20 per minute (burst 40), /price 2 per minute (burst 2), and every /v2 endpoint inherits the limit of its v1 counterpart. In addition, the limits are adjusted dynamically to the current server load, so the effective limit can be lower during peak times. Exceeding a limit returns HTTP 429 with a Retry-After header giving the number of seconds to wait. Clients should honour that header instead of assuming fixed limits, and cache responses on their side. For higher limits (commercial access) please contact leonhard.gandhi@ise.fraunhofer.de. Discontinuation of endpoints
+
+
+    Endpoint discontinuations will be preceded by an announcement at least six months in advance, indicated by setting the "deprecated" status to true. Data License
+
+
+    Unless stated otherwise, the data provided by the Energy-Charts API is licensed under the CC BY 4.0 license. Proper attribution to Energy-Charts.info as the source is required. New in release v2.0 (2026-07-20)
+
+
+    New machine-readable /v2/...'
   termsOfService: https://energy-charts.info/data-protection.html
   contact:
     name: Contact
@@ -18,10 +63,10 @@ info:
   license:
     name: Publishing notes
     url: https://energy-charts.info/publishing-notes.html
-  version: '1.5'
+  version: '2.0'
 tags:
 - name: ren_share
-  description: Renewable shares
+  description: Renewable shares (legacy v1)
 paths:
   /signal:
     get:
@@ -565,6 +610,84 @@ components:
       - msg
       - type
       title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ShareModel:
+      properties:
+        unix_seconds:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Unix Seconds
+        data:
+          anyOf:
+          - items:
+              anyOf:
+              - type: number
+              - type: 'null'
+            type: array
+          - type: 'null'
+          title: Data
+        forecast:
+          anyOf:
+          - items:
+              anyOf:
+              - type: number
+              - type: 'null'
+            type: array
+          - type: 'null'
+          title: Forecast
+        deprecated:
+          type: boolean
+          title: Deprecated
+      type: object
+      required:
+      - deprecated
+      title: ShareModel
+    TrafficModel:
+      properties:
+        unix_seconds:
+          items:
+            type: integer
+          type: array
+          title: Unix Seconds
+        share:
+          items:
+            anyOf:
+            - type: number
+            - type: 'null'
+          type: array
+          title: Share
+        signal:
+          items:
+            anyOf:
+            - type: integer
+            - type: 'null'
+          type: array
+          title: Signal
+          description: "\n    0: Red (low renewable share)\n    1: Yellow (average renewable share)\n    2: Green (high renewable share)\n    "
+        substitute:
+          type: boolean
+          title: Substitute
+        deprecated:
+          type: boolean
+          title: Deprecated
+      type: object
+      required:
+      - unix_seconds
+      - share
+      - substitute
+      - deprecated
+      title: TrafficModel
     DailyAvgDict:
       properties:
         days:
@@ -638,81 +761,3 @@ components:
       - substitute
       - deprecated
       title: RenShareModel
-    ShareModel:
-      properties:
-        unix_seconds:
-          anyOf:
-          - items:
-              type: integer
-            type: array
-          - type: 'null'
-          title: Unix Seconds
-        data:
-          anyOf:
-          - items:
-              anyOf:
-              - type: number
-              - type: 'null'
-            type: array
-          - type: 'null'
-          title: Data
-        forecast:
-          anyOf:
-          - items:
-              anyOf:
-              - type: number
-              - type: 'null'
-            type: array
-          - type: 'null'
-          title: Forecast
-        deprecated:
-          type: boolean
-          title: Deprecated
-      type: object
-      required:
-      - deprecated
-      title: ShareModel
-    TrafficModel:
-      properties:
-        unix_seconds:
-          items:
-            type: integer
-          type: array
-          title: Unix Seconds
-        share:
-          items:
-            anyOf:
-            - type: number
-            - type: 'null'
-          type: array
-          title: Share
-        signal:
-          items:
-            anyOf:
-            - type: integer
-            - type: 'null'
-          type: array
-          title: Signal
-          description: "\n    0: Red (low renewable share)\n    1: Yellow (average renewable share)\n    2: Green (high renewable share)\n    "
-        substitute:
-          type: boolean
-          title: Substitute
-        deprecated:
-          type: boolean
-          title: Deprecated
-      type: object
-      required:
-      - unix_seconds
-      - share
-      - substitute
-      - deprecated
-      title: TrafficModel
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError

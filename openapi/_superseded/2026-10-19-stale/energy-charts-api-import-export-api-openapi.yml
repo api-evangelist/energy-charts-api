@@ -1,0 +1,243 @@
+openapi: 3.2.0
+info:
+  title: Energy-Charts Import Export API
+  description: 'Timestamp Format Options
+
+
+    When specifying timestamps, you can choose from the following three formats:
+
+
+    ISO 8601 Format:
+
+
+    This format includes the full date and time, with an optional timezone indicator.'
+  termsOfService: https://energy-charts.info/data-protection.html
+  contact:
+    name: Contact
+    url: https://energy-charts.info/contact.html
+  license:
+    name: Publishing notes
+    url: https://energy-charts.info/publishing-notes.html
+  version: '1.5'
+tags:
+- name: Import Export
+  description: Import/export values
+paths:
+  /cbet:
+    get:
+      tags:
+      - Import Export
+      summary: Cross Border Electricity Trading
+      description: 'Returns the cross-border electricity trading (cbet) in GW between a specified country and its neighbors.
+
+
+        Positive values indicate an import of electricity, whereas negative values show electricity exports.
+
+
+        Response schema:
+
+
+        ```json
+
+        {
+
+        "unix_seconds": [int],
+
+        "countries": [
+
+        {
+
+        "name": str,
+
+        "data": [float]
+
+        }
+
+        ],
+
+        "deprecated": bool
+
+        }
+
+        ```'
+      operationId: cross_border_electricity_trading_cbet_get
+      parameters:
+      - name: country
+        in: query
+        required: false
+        schema:
+          type: string
+          default: de
+          title: Country
+      - name: start
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Start
+      - name: end
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: End
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CrossBorderModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /cbpf:
+    get:
+      tags:
+      - Import Export
+      summary: Cross Border Physical Flows
+      description: 'Returns the cross-border physical flows (cbpfs) of electricity in GW between a specified country and its neighbors.
+
+
+        Positive values indicate an import of electricity, whereas negative values show electricity exports.
+
+
+        Response schema:
+
+
+        ```json
+
+        {
+
+        "unix_seconds": [int],
+
+        "countries": [
+
+        {
+
+        "name": str,
+
+        "data": [float]
+
+        }
+
+        ],
+
+        "deprecated": bool
+
+        }
+
+        ```'
+      operationId: cross_border_physical_flows_cbpf_get
+      parameters:
+      - name: country
+        in: query
+        required: false
+        schema:
+          type: string
+          default: de
+          title: Country
+      - name: start
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Start
+      - name: end
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: End
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CrossBorderModel'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    NamedData:
+      properties:
+        name:
+          type: string
+          title: Name
+        data:
+          items:
+            anyOf:
+            - type: number
+            - type: 'null'
+          type: array
+          title: Data
+      type: object
+      required:
+      - name
+      - data
+      title: NamedData
+    CrossBorderModel:
+      properties:
+        unix_seconds:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Unix Seconds
+        countries:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/NamedData'
+            type: array
+          - type: 'null'
+          title: Countries
+        deprecated:
+          type: boolean
+          title: Deprecated
+      type: object
+      required:
+      - deprecated
+      title: CrossBorderModel
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

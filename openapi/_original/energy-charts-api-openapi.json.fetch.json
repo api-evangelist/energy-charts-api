@@ -1,0 +1,12 @@
+{
+ "url": "https://api.energy-charts.info/openapi.json",
+ "final": "https://api.energy-charts.info/openapi.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 83840,
+ "sha256": "523d3ec0fd82a7f148a94c02ffc08e8251c231d74e74b6019978af1e64b610d4",
+ "fetched_at": "2026-10-19",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "re-archived: the provider's current document replaced a stale archive (roadmap#793); the old files are in openapi/_superseded/2026-10-19-stale"
+}
